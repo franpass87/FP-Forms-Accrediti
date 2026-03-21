@@ -1,5 +1,10 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.0.1] - 2026-03-21
+### Fixed
+- Corretto il controllo permessi admin del menu Accrediti: rimosso gate in registrazione submenu e allineata capability a `manage_fp_forms`.
+- Esteso fallback permessi in `Permissions::can_manage_accrediti()` includendo `manage_fp_forms` oltre a capability custom e `manage_options`.
+
 ## [1.0.0] - 2026-03-21
 ### Added
 - Bootstrap plugin add-on separato con dependency guard su FP Forms.

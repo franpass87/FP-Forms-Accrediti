@@ -17,6 +17,8 @@ final class Permissions {
         $settings = Settings::get();
         $cap      = $settings['operator_capability'] ?? 'manage_fp_forms_accrediti';
 
-        return current_user_can( $cap ) || current_user_can( 'manage_options' );
+        return current_user_can( $cap )
+            || current_user_can( 'manage_options' )
+            || current_user_can( 'manage_fp_forms' );
     }
 }

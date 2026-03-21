@@ -30,15 +30,11 @@ final class Menu {
      * Crea submenu sotto FP Forms.
      */
     public function register_menu(): void {
-        if ( ! Permissions::can_manage_accrediti() ) {
-            return;
-        }
-
         add_submenu_page(
             'fp-forms',
             __( 'Richieste Accrediti', 'fp-forms-accrediti' ),
             __( 'Accrediti', 'fp-forms-accrediti' ),
-            'read',
+            'manage_fp_forms',
             'fp-forms-accrediti-requests',
             [ $this->controller, 'render_requests_page' ]
         );
@@ -47,7 +43,7 @@ final class Menu {
             'fp-forms',
             __( 'Impostazioni Accrediti', 'fp-forms-accrediti' ),
             __( 'Accrediti Settings', 'fp-forms-accrediti' ),
-            'read',
+            'manage_fp_forms',
             'fp-forms-accrediti-settings',
             [ $this->controller, 'render_settings_page' ]
         );
