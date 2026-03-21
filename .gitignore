@@ -1,0 +1,5 @@
+# Composer - vendor INCLUSO nel repo (fp-git-updater richiede deploy senza composer)
+# /vendor/
+
+.DS_Store
+Thumbs.db

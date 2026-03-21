@@ -1,0 +1,28 @@
+.fpfa-admin .fpfa-filters {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0 16px;
+}
+
+.fpfa-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.fpfa-status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.fpfa-status-approved {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.fpfa-status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+}
