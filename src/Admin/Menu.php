@@ -18,9 +18,10 @@ final class Menu {
 
     /**
      * Registra hook admin.
+     * Priorità 20: dopo FP Forms (10) che crea il menu padre 'fp-forms'.
      */
     public function register(): void {
-        add_action( 'admin_menu', [ $this, 'register_menu' ] );
+        add_action( 'admin_menu', [ $this, 'register_menu' ], 20 );
         add_action( 'admin_post_fp_forms_accrediti_save_settings', [ $this->controller, 'handle_save_settings' ] );
         add_action( 'admin_post_fp_forms_accrediti_decide_request', [ $this->controller, 'handle_decision' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );

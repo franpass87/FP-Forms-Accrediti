@@ -1,5 +1,9 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.0.2] - 2026-03-22
+### Fixed
+- Fix 404 su pagine Accrediti e Accrediti Settings: priorità `admin_menu` impostata a 20 per registrare i submenu dopo FP Forms.
+
 ## [1.0.1] - 2026-03-21
 ### Fixed
 - Corretto il controllo permessi admin del menu Accrediti: rimosso gate in registrazione submenu e allineata capability a `manage_fp_forms`.

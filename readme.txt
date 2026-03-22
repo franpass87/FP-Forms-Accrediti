@@ -4,7 +4,7 @@ Contributors: franpass87
 Tags: forms, accreditation, workflow, approvals, email
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -31,6 +31,9 @@ Include:
 4. Configura in `FP Forms -> Accrediti Settings`.
 
 == Changelog ==
+
+= 1.0.2 = (2026-03-22)
+* Fix: 404 su pagine Accrediti e Accrediti Settings risolto con priorità admin_menu corretta.
 
 = 1.0.1 = (2026-03-21)
 * Fix: permessi menu/admin Accrediti allineati a capability `manage_fp_forms`.
