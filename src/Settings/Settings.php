@@ -18,10 +18,10 @@ final class Settings {
             'allowed_mime_types' => [ 'application/pdf' ],
             'operator_capability' => 'manage_fp_forms_accrediti',
             'email_templates' => [
-                'approval_subject' => __( 'Richiesta accredito approvata', 'fp-forms-accrediti' ),
-                'approval_body' => __( "La tua richiesta e' stata approvata. In allegato trovi l'accredito.", 'fp-forms-accrediti' ),
-                'rejection_subject' => __( 'Richiesta accredito non approvata', 'fp-forms-accrediti' ),
-                'rejection_body' => __( "La tua richiesta non e' stata approvata.", 'fp-forms-accrediti' ),
+                'approval_subject' => __( 'La tua richiesta accredito è stata approvata - {site_name}', 'fp-forms-accrediti' ),
+                'approval_body' => __( "Gentile candidato,\n\nla tua richiesta di accredito per {form_title} è stata approvata.\n\nIn allegato trovi il documento ufficiale.\n\n{decision_message}\n\nCordiali saluti,\n{site_name}", 'fp-forms-accrediti' ),
+                'rejection_subject' => __( 'Esito richiesta accredito - {site_name}', 'fp-forms-accrediti' ),
+                'rejection_body' => __( "Gentile candidato,\n\npurtroppo la tua richiesta di accredito per {form_title} non è stata approvata.\n\n{decision_message}\n\nPer ulteriori informazioni puoi contattarci.\n\nCordiali saluti,\n{site_name}", 'fp-forms-accrediti' ),
             ],
         ];
 

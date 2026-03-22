@@ -4,6 +4,102 @@
     margin: 12px 0 16px;
 }
 
+/* Card e sezioni template email */
+.fpfa-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.fpfa-card-header {
+    background: #f9fafb;
+    border-bottom: 2px solid #f3f4f6;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.fpfa-card-header .dashicons {
+    color: #667eea;
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+}
+
+.fpfa-card-header h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.fpfa-card-body {
+    padding: 20px;
+}
+
+.fpfa-card-desc {
+    margin-bottom: 16px;
+    color: #4b5563;
+}
+
+.fpfa-tags-hint {
+    background: #f3f4f6;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    font-size: 13px;
+}
+
+.fpfa-tags-hint code {
+    background: #e5e7eb;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin: 0 2px;
+}
+
+.fpfa-email-section {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.fpfa-email-section:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.fpfa-email-section-title {
+    font-size: 14px;
+    margin: 0 0 12px;
+    color: #1f2937;
+}
+
+.fpfa-field {
+    margin-bottom: 16px;
+}
+
+.fpfa-field label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.fpfa-field input[type="text"],
+.fpfa-field textarea {
+    width: 100%;
+    max-width: 600px;
+}
+
+.fpfa-hint {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
 .fpfa-status {
     display: inline-block;
     padding: 2px 8px;

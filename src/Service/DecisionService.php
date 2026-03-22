@@ -28,10 +28,13 @@ final class DecisionService {
             return false;
         }
 
+        $context = $this->build_email_context( (int) $request->form_id );
+
         $email_sent = $this->mailer->send_approval_email(
             (string) $request->applicant_email,
             $decision_message,
-            $attachment_id
+            $attachment_id,
+            $context
         );
 
         if ( ! $email_sent ) {
@@ -50,9 +53,12 @@ final class DecisionService {
             return false;
         }
 
+        $context = $this->build_email_context( (int) $request->form_id );
+
         $email_sent = $this->mailer->send_rejection_email(
             (string) $request->applicant_email,
-            $decision_message
+            $decision_message,
+            $context
         );
 
         if ( ! $email_sent ) {
@@ -60,5 +66,19 @@ final class DecisionService {
         }
 
         return $this->repository->reject_request( $request_id, $operator_id, $decision_message );
+    }
+
+    /**
+     * Costruisce contesto per placeholder email.
+     *
+     * @return array<string, string>
+     */
+    private function build_email_context( int $form_id ): array {
+        $form_title = '';
+        if ( $form_id > 0 && class_exists( '\FPForms\Plugin' ) ) {
+            $form = \FPForms\Plugin::instance()->forms->get_form( $form_id );
+            $form_title = is_array( $form ) && ! empty( $form['title'] ) ? (string) $form['title'] : '';
+        }
+        return [ 'form_title' => $form_title ];
     }
 }

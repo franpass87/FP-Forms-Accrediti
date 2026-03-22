@@ -51,25 +51,44 @@ if ( ! defined( 'ABSPATH' ) ) {
             </tbody>
         </table>
 
-        <h2><?php esc_html_e( 'Template email', 'fp-forms-accrediti' ); ?></h2>
-        <table class="form-table">
-            <tr>
-                <th><label for="approval_subject"><?php esc_html_e( 'Oggetto approvazione', 'fp-forms-accrediti' ); ?></label></th>
-                <td><input type="text" id="approval_subject" class="large-text" name="settings[email_templates][approval_subject]" value="<?php echo esc_attr( (string) $settings['email_templates']['approval_subject'] ); ?>"></td>
-            </tr>
-            <tr>
-                <th><label for="approval_body"><?php esc_html_e( 'Testo approvazione', 'fp-forms-accrediti' ); ?></label></th>
-                <td><textarea id="approval_body" class="large-text" rows="5" name="settings[email_templates][approval_body]"><?php echo esc_textarea( (string) $settings['email_templates']['approval_body'] ); ?></textarea></td>
-            </tr>
-            <tr>
-                <th><label for="rejection_subject"><?php esc_html_e( 'Oggetto rifiuto', 'fp-forms-accrediti' ); ?></label></th>
-                <td><input type="text" id="rejection_subject" class="large-text" name="settings[email_templates][rejection_subject]" value="<?php echo esc_attr( (string) $settings['email_templates']['rejection_subject'] ); ?>"></td>
-            </tr>
-            <tr>
-                <th><label for="rejection_body"><?php esc_html_e( 'Testo rifiuto', 'fp-forms-accrediti' ); ?></label></th>
-                <td><textarea id="rejection_body" class="large-text" rows="5" name="settings[email_templates][rejection_body]"><?php echo esc_textarea( (string) $settings['email_templates']['rejection_body'] ); ?></textarea></td>
-            </tr>
-        </table>
+        <div class="fpfa-card fpfa-card-email-templates">
+            <div class="fpfa-card-header">
+                <span class="dashicons dashicons-email-alt"></span>
+                <h2><?php esc_html_e( 'Template email', 'fp-forms-accrediti' ); ?></h2>
+            </div>
+            <div class="fpfa-card-body">
+                <p class="description fpfa-card-desc"><?php esc_html_e( 'Personalizza gli oggetti e i testi delle email inviate al candidato. Usa i tag sotto per inserire dati dinamici.', 'fp-forms-accrediti' ); ?></p>
+                <div class="fpfa-tags-hint">
+                    <strong><?php esc_html_e( 'Tag disponibili:', 'fp-forms-accrediti' ); ?></strong>
+                    <code>{applicant_email}</code> <code>{form_title}</code> <code>{site_name}</code> <code>{site_url}</code> <code>{date}</code> <code>{time}</code> <code>{decision_message}</code>
+                </div>
+
+                <div class="fpfa-email-section">
+                    <h3 class="fpfa-email-section-title"><?php esc_html_e( 'Approvazione', 'fp-forms-accrediti' ); ?></h3>
+                    <div class="fpfa-field">
+                        <label for="approval_subject"><?php esc_html_e( 'Oggetto', 'fp-forms-accrediti' ); ?></label>
+                        <input type="text" id="approval_subject" class="large-text" name="settings[email_templates][approval_subject]" value="<?php echo esc_attr( (string) ( $settings['email_templates']['approval_subject'] ?? '' ) ); ?>" placeholder="<?php esc_attr_e( 'La tua richiesta accredito è stata approvata - {site_name}', 'fp-forms-accrediti' ); ?>">
+                    </div>
+                    <div class="fpfa-field">
+                        <label for="approval_body"><?php esc_html_e( 'Testo', 'fp-forms-accrediti' ); ?></label>
+                        <textarea id="approval_body" class="large-text" rows="6" name="settings[email_templates][approval_body]" placeholder="<?php esc_attr_e( "Gentile candidato,\n\nla tua richiesta di accredito per {form_title} è stata approvata.\n\nIn allegato trovi il documento ufficiale.\n\n{decision_message}\n\nCordiali saluti,\n{site_name}", 'fp-forms-accrediti' ); ?>"><?php echo esc_textarea( (string) ( $settings['email_templates']['approval_body'] ?? '' ) ); ?></textarea>
+                        <span class="fpfa-hint"><?php esc_html_e( 'Se l\'operatore scrive un messaggio, viene aggiunto in automatico dopo il testo (oppure usa {decision_message}).', 'fp-forms-accrediti' ); ?></span>
+                    </div>
+                </div>
+
+                <div class="fpfa-email-section">
+                    <h3 class="fpfa-email-section-title"><?php esc_html_e( 'Rifiuto', 'fp-forms-accrediti' ); ?></h3>
+                    <div class="fpfa-field">
+                        <label for="rejection_subject"><?php esc_html_e( 'Oggetto', 'fp-forms-accrediti' ); ?></label>
+                        <input type="text" id="rejection_subject" class="large-text" name="settings[email_templates][rejection_subject]" value="<?php echo esc_attr( (string) ( $settings['email_templates']['rejection_subject'] ?? '' ) ); ?>" placeholder="<?php esc_attr_e( 'Esito richiesta accredito - {site_name}', 'fp-forms-accrediti' ); ?>">
+                    </div>
+                    <div class="fpfa-field">
+                        <label for="rejection_body"><?php esc_html_e( 'Testo', 'fp-forms-accrediti' ); ?></label>
+                        <textarea id="rejection_body" class="large-text" rows="6" name="settings[email_templates][rejection_body]" placeholder="<?php esc_attr_e( "Gentile candidato,\n\npurtroppo la tua richiesta di accredito per {form_title} non è stata approvata.\n\n{decision_message}\n\nPer ulteriori informazioni puoi contattarci.\n\nCordiali saluti,\n{site_name}", 'fp-forms-accrediti' ); ?>"><?php echo esc_textarea( (string) ( $settings['email_templates']['rejection_body'] ?? '' ) ); ?></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <h2><?php esc_html_e( 'MIME allegati consentiti', 'fp-forms-accrediti' ); ?></h2>
         <label><input type="checkbox" name="settings[allowed_mime_types][]" value="application/pdf" <?php checked( in_array( 'application/pdf', (array) $settings['allowed_mime_types'], true ) ); ?>> application/pdf</label>

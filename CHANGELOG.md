@@ -1,5 +1,12 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.0.3] - 2026-03-22
+### Added
+- Placeholder nei template email: `{applicant_email}`, `{form_title}`, `{site_name}`, `{site_url}`, `{date}`, `{time}`, `{decision_message}`.
+### Changed
+- Migliorata UI sezione template email in Accrediti Settings: card con descrizione, hint tag e layout a sezioni.
+- Default template email più ricchi e professionali con struttura saluto/chiusura.
+
 ## [1.0.2] - 2026-03-22
 ### Fixed
 - Fix 404 su pagine Accrediti e Accrediti Settings: priorità `admin_menu` impostata a 20 per registrare i submenu dopo FP Forms.

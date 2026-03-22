@@ -4,7 +4,7 @@ Contributors: franpass87
 Tags: forms, accreditation, workflow, approvals, email
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -31,6 +31,10 @@ Include:
 4. Configura in `FP Forms -> Accrediti Settings`.
 
 == Changelog ==
+
+= 1.0.3 = (2026-03-22)
+* Added: placeholder nei template email ({form_title}, {site_name}, {date}, {decision_message}, ecc.).
+* Changed: UI migliorata per template email in settings con card e hint tag.
 
 = 1.0.2 = (2026-03-22)
 * Fix: 404 su pagine Accrediti e Accrediti Settings risolto con priorità admin_menu corretta.
