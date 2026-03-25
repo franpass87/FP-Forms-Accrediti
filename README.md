@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# FP-Forms-Accrediti
-=======
 # FP Forms Accrediti
 
 Add-on opzionale per `FP Forms` che aggiunge un workflow di richieste accredito: creazione richiesta pending da submission, revisione operatore, approvazione/rifiuto con email dedicata e allegato.
@@ -19,7 +16,7 @@ Add-on opzionale per `FP Forms` che aggiunge un workflow di richieste accredito:
 - Approvazione con allegato via Media Library
 - Rifiuto con messaggio dedicato
 - Audit eventi per tracciamento operatore
-- Template email configurabili
+- Template email configurabili (testo convertito in HTML; con **FP Mail SMTP** attivo si applica il layout branding unificato)
 
 ## Installazione
 
@@ -46,4 +43,3 @@ Vedi `CHANGELOG.md`.
 - Sito: [francescopasseri.com](https://francescopasseri.com)
 - Email: [info@francescopasseri.com](mailto:info@francescopasseri.com)
 - GitHub: [github.com/franpass87](https://github.com/franpass87)
->>>>>>> ef47045 (feat: bootstrap FP Forms Accrediti addon (v 1.0.0))

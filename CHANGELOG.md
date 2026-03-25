@@ -1,5 +1,9 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.0.4] - 2026-03-24
+### Changed
+- Email approvazione/rifiuto: `Content-Type` HTML; il testo dei template (textarea, con placeholder sostituiti) viene convertito con `nl2br` e, se attivo **FP Mail SMTP**, avvolto con `fp_fpmail_brand_html()`. Senza FP Mail, documento HTML minimo di fallback.
+
 ## [1.0.3] - 2026-03-22
 ### Added
 - Placeholder nei template email: `{applicant_email}`, `{form_title}`, `{site_name}`, `{site_url}`, `{date}`, `{time}`, `{decision_message}`.

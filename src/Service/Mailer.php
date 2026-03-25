@@ -25,10 +25,11 @@ final class Mailer {
             $body .= "\n\n" . $message;
         }
 
-        $headers    = [ 'Content-Type: text/plain; charset=UTF-8' ];
+        $headers     = [ 'Content-Type: text/html; charset=UTF-8' ];
         $attachments = $this->resolve_attachments( $attachment_id );
+        $html        = $this->plain_templates_to_branded_html( $body );
 
-        return wp_mail( sanitize_email( $to ), $subject, $body, $headers, $attachments );
+        return wp_mail( sanitize_email( $to ), $subject, $html, $headers, $attachments );
     }
 
     /**
@@ -46,9 +47,29 @@ final class Mailer {
             $body .= "\n\n" . $message;
         }
 
-        $headers = [ 'Content-Type: text/plain; charset=UTF-8' ];
+        $headers = [ 'Content-Type: text/html; charset=UTF-8' ];
+        $html    = $this->plain_templates_to_branded_html( $body );
 
-        return wp_mail( sanitize_email( $to ), $subject, $body, $headers );
+        return wp_mail( sanitize_email( $to ), $subject, $html, $headers );
+    }
+
+    /**
+     * Converte il testo del template (con newline) in HTML e applica il layout FP Mail SMTP se disponibile.
+     */
+    private function plain_templates_to_branded_html( string $plain ): string {
+        $plain = trim( $plain );
+        if ( $plain === '' ) {
+            $plain = ' ';
+        }
+        $escaped     = esc_html( $plain );
+        $with_breaks = nl2br( $escaped, false );
+        $fragment    = '<div class="fp-forms-accrediti-email-body" style="font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,sans-serif;font-size:15px;line-height:1.6;color:#334155;">' . $with_breaks . '</div>';
+
+        if ( function_exists( 'fp_fpmail_brand_html' ) ) {
+            return fp_fpmail_brand_html( $fragment );
+        }
+
+        return '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:16px;background:#f8fafc;">' . $fragment . '</body></html>';
     }
 
     /**
