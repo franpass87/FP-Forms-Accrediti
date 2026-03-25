@@ -41,7 +41,25 @@ final class DecisionService {
             return false;
         }
 
-        return $this->repository->approve_request( $request_id, $operator_id, $decision_message, $attachment_id );
+        $updated = $this->repository->approve_request( $request_id, $operator_id, $decision_message, $attachment_id );
+        if ( ! $updated ) {
+            return false;
+        }
+
+        do_action(
+            'fp_tracking_event',
+            'accrediti_request_approved',
+            [
+                'request_id'    => $request_id,
+                'submission_id' => (int) $request->submission_id,
+                'form_id'       => (int) $request->form_id,
+                'operator_id'   => $operator_id,
+                'has_attachment'=> $attachment_id !== null,
+                'source_plugin' => 'fp-forms-accrediti',
+            ]
+        );
+
+        return true;
     }
 
     /**
@@ -65,7 +83,24 @@ final class DecisionService {
             return false;
         }
 
-        return $this->repository->reject_request( $request_id, $operator_id, $decision_message );
+        $updated = $this->repository->reject_request( $request_id, $operator_id, $decision_message );
+        if ( ! $updated ) {
+            return false;
+        }
+
+        do_action(
+            'fp_tracking_event',
+            'accrediti_request_rejected',
+            [
+                'request_id'    => $request_id,
+                'submission_id' => (int) $request->submission_id,
+                'form_id'       => (int) $request->form_id,
+                'operator_id'   => $operator_id,
+                'source_plugin' => 'fp-forms-accrediti',
+            ]
+        );
+
+        return true;
     }
 
     /**

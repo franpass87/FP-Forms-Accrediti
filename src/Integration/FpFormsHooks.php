@@ -42,7 +42,21 @@ final class FpFormsHooks {
             return;
         }
 
-        $this->repository->create_pending_request( $submission_id, $form_id, $email );
+        $request_id = $this->repository->create_pending_request( $submission_id, $form_id, $email );
+        if ( ! $request_id ) {
+            return;
+        }
+
+        do_action(
+            'fp_tracking_event',
+            'accrediti_request_created',
+            [
+                'request_id'     => (int) $request_id,
+                'submission_id'  => $submission_id,
+                'form_id'        => $form_id,
+                'source_plugin'  => 'fp-forms-accrediti',
+            ]
+        );
     }
 
     /**

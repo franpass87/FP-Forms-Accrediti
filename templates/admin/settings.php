@@ -6,7 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="wrap fpfa-admin">
-    <h1><?php esc_html_e( 'Impostazioni Accrediti', 'fp-forms-accrediti' ); ?></h1>
+    <h1 class="screen-reader-text"><?php esc_html_e( 'Impostazioni Accrediti', 'fp-forms-accrediti' ); ?></h1>
+    <div class="fpfa-page-header">
+        <div class="fpfa-page-header-content">
+            <h2 class="fpfa-page-header-title" aria-hidden="true"><?php esc_html_e( 'Impostazioni Accrediti', 'fp-forms-accrediti' ); ?></h2>
+            <p class="fpfa-page-header-desc"><?php esc_html_e( 'Configura workflow accrediti e template email.', 'fp-forms-accrediti' ); ?></p>
+        </div>
+        <span class="fpfa-page-header-badge">v<?php echo esc_html( defined( 'FP_FORMS_ACCREDITI_VERSION' ) ? FP_FORMS_ACCREDITI_VERSION : '0' ); ?></span>
+    </div>
 
     <?php if ( isset( $_GET['updated'] ) ) : ?>
         <div class="notice notice-success"><p><?php esc_html_e( 'Impostazioni salvate.', 'fp-forms-accrediti' ); ?></p></div>

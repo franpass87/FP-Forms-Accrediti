@@ -1,3 +1,63 @@
+/* FP Design System - Page Header (grafica unificata) */
+:root {
+    --fpfa-gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.fpfa-page-header {
+    background: var(--fpfa-gradient-primary);
+    padding: 24px 28px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.fpfa-page-header-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.fpfa-page-header-title {
+    margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.fpfa-page-header-desc {
+    margin: 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.88) !important;
+}
+
+.fpfa-page-header-badge {
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.fpfa-page-header .fpfa-page-header-btn {
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.fpfa-page-header .fpfa-page-header-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+    color: #fff;
+}
+
 .fpfa-admin .fpfa-filters {
     display: flex;
     gap: 8px;

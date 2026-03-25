@@ -54,7 +54,10 @@ final class Menu {
      * Carica CSS/JS pagine accrediti.
      */
     public function enqueue_assets( string $hook ): void {
-        if ( strpos( $hook, 'fp-forms-accrediti' ) === false ) {
+        $page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+        $is_our_page = ( strpos( $hook, 'fp-forms-accrediti' ) !== false )
+            || ( $page !== '' && strpos( $page, 'fp-forms-accrediti' ) !== false );
+        if ( ! $is_our_page ) {
             return;
         }
 

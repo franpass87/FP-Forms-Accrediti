@@ -6,7 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="wrap fpfa-admin">
-    <h1><?php esc_html_e( 'Richieste Accrediti', 'fp-forms-accrediti' ); ?></h1>
+    <h1 class="screen-reader-text"><?php esc_html_e( 'Richieste Accrediti', 'fp-forms-accrediti' ); ?></h1>
+    <div class="fpfa-page-header">
+        <div class="fpfa-page-header-content">
+            <h2 class="fpfa-page-header-title" aria-hidden="true"><?php esc_html_e( 'Richieste Accrediti', 'fp-forms-accrediti' ); ?></h2>
+            <p class="fpfa-page-header-desc"><?php esc_html_e( 'Visualizza e gestisci le richieste di accredito in attesa.', 'fp-forms-accrediti' ); ?></p>
+        </div>
+        <span class="fpfa-page-header-badge">v<?php echo esc_html( defined( 'FP_FORMS_ACCREDITI_VERSION' ) ? FP_FORMS_ACCREDITI_VERSION : '0' ); ?></span>
+    </div>
 
     <form method="get" class="fpfa-filters">
         <input type="hidden" name="page" value="fp-forms-accrediti-requests">
