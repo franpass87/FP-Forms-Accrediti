@@ -1,5 +1,9 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.0.10] - 2026-04-04
+### Changed
+- Eventi `fp_tracking_event` (creato/approvato/rifiutato): aggiunto `event_id` stabile per deduplica GA4 lato server.
+
 ## [1.0.9] - 2026-04-04
 ### Fixed
 - Rilevazione e sostituzione automatica dei segnaposto di prova salvati in opzioni (`Subj A` / `Body A` / `Subj R` / `Body R`): correzione DB al primo `admin_init` e stessa logica in `normalize_email_templates`.

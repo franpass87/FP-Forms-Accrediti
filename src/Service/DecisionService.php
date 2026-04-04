@@ -56,12 +56,13 @@ final class DecisionService {
             'fp_tracking_event',
             'accrediti_request_approved',
             [
-                'request_id'    => $request_id,
-                'submission_id' => (int) $request->submission_id,
-                'form_id'       => (int) $request->form_id,
-                'operator_id'   => $operator_id,
-                'has_attachment'=> $effective_attachment_id !== null && $effective_attachment_id > 0,
-                'source_plugin' => 'fp-forms-accrediti',
+                'request_id'     => $request_id,
+                'submission_id'  => (int) $request->submission_id,
+                'form_id'        => (int) $request->form_id,
+                'operator_id'    => $operator_id,
+                'has_attachment' => $effective_attachment_id !== null && $effective_attachment_id > 0,
+                'source_plugin'  => 'fp-forms-accrediti',
+                'event_id'       => 'fp_acc_appr_' . $request_id . '_' . time(),
             ]
         );
 
@@ -120,6 +121,7 @@ final class DecisionService {
                 'form_id'       => (int) $request->form_id,
                 'operator_id'   => $operator_id,
                 'source_plugin' => 'fp-forms-accrediti',
+                'event_id'      => 'fp_acc_rej_' . $request_id . '_' . time(),
             ]
         );
 

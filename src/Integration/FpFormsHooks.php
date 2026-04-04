@@ -51,10 +51,11 @@ final class FpFormsHooks {
             'fp_tracking_event',
             'accrediti_request_created',
             [
-                'request_id'     => (int) $request_id,
-                'submission_id'  => $submission_id,
-                'form_id'        => $form_id,
-                'source_plugin'  => 'fp-forms-accrediti',
+                'request_id'    => (int) $request_id,
+                'submission_id' => $submission_id,
+                'form_id'       => $form_id,
+                'source_plugin' => 'fp-forms-accrediti',
+                'event_id'      => 'fp_acc_req_' . (int) $request_id . '_' . time(),
             ]
         );
     }
