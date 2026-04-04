@@ -1,5 +1,9 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.0.6] - 2026-04-04
+### Changed
+- Pagina **Accrediti Settings**: struttura a card con testi guida, legenda tabella form, hint sui campi; stili admin dedicati (`fpfa-*`); classe body `fpfa-admin-shell` per spaziatura coerente con le notice WordPress.
+
 ## [1.0.5] - 2026-04-04
 ### Added
 - Impostazione **Allegato accredito predefinito** (PDF da Media Library): in approvazione, se l’operatore non seleziona un file, viene usato automaticamente questo allegato (stesse regole MIME dei singoli invii).

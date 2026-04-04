@@ -1,5 +1,7 @@
 # FP Forms Accrediti
 
+![Version](https://img.shields.io/badge/version-1.0.6-blue)
+
 Add-on opzionale per `FP Forms` che aggiunge un workflow di richieste accredito: creazione richiesta pending da submission, revisione operatore, approvazione/rifiuto con email dedicata e allegato.
 
 ## Requisiti
@@ -23,7 +25,7 @@ Add-on opzionale per `FP Forms` che aggiunge un workflow di richieste accredito:
 1. Carica la cartella `FP-Forms-Accrediti` in `wp-content/plugins/`.
 2. Assicurati che `FP Forms` sia attivo.
 3. Attiva `FP Forms Accrediti`.
-4. Vai in `FP Forms -> Accrediti Settings` e abilita i form desiderati.
+4. Vai in `FP Forms -> Accrediti Settings` e abilita i form desiderati (pagina con card e testi guida per modulo, documenti ed email).
 
 ## Architettura
 

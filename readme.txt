@@ -4,7 +4,7 @@ Contributors: franpass87
 Tags: forms, accreditation, workflow, approvals, email
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -31,6 +31,9 @@ Include:
 4. Configura in `FP Forms -> Accrediti Settings`.
 
 == Changelog ==
+
+= 1.0.6 = (2026-04-04)
+* Changed: Accrediti Settings più chiara (card, testi guida, legenda tabella, CSS admin).
 
 = 1.0.5 = (2026-04-04)
 * Added: allegato PDF predefinito in Accrediti Settings, usato automaticamente in approvazione se l'operatore non sceglie un file.
