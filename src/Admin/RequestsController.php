@@ -75,9 +75,8 @@ final class RequestsController {
             wp_die( esc_html__( 'Permessi insufficienti.', 'fp-forms-accrediti' ) );
         }
 
-        $settings            = Settings::get();
-        $fpfa_email_defaults = Settings::default_email_templates();
-        $forms               = \FPForms\Plugin::instance()->forms->get_forms();
+        $settings = Settings::get();
+        $forms    = \FPForms\Plugin::instance()->forms->get_forms();
         include FP_FORMS_ACCREDITI_PLUGIN_DIR . 'templates/admin/settings.php';
     }
 
@@ -155,12 +154,14 @@ final class RequestsController {
             'default_approval_attachment_id' => isset( $raw['default_approval_attachment_id'] ) ? absint( $raw['default_approval_attachment_id'] ) : 0,
             'allowed_mime_types' => [ 'application/pdf' ],
             'form_configs' => [],
-            'email_templates' => [
-                'approval_subject' => sanitize_text_field( (string) ( $raw['email_templates']['approval_subject'] ?? '' ) ),
-                'approval_body' => sanitize_textarea_field( (string) ( $raw['email_templates']['approval_body'] ?? '' ) ),
-                'rejection_subject' => sanitize_text_field( (string) ( $raw['email_templates']['rejection_subject'] ?? '' ) ),
-                'rejection_body' => sanitize_textarea_field( (string) ( $raw['email_templates']['rejection_body'] ?? '' ) ),
-            ],
+            'email_templates' => Settings::normalize_email_templates(
+                [
+                    'approval_subject' => sanitize_text_field( (string) ( $raw['email_templates']['approval_subject'] ?? '' ) ),
+                    'approval_body' => sanitize_textarea_field( (string) ( $raw['email_templates']['approval_body'] ?? '' ) ),
+                    'rejection_subject' => sanitize_text_field( (string) ( $raw['email_templates']['rejection_subject'] ?? '' ) ),
+                    'rejection_body' => sanitize_textarea_field( (string) ( $raw['email_templates']['rejection_body'] ?? '' ) ),
+                ]
+            ),
         ];
 
         $mime_raw = isset( $raw['allowed_mime_types'] ) && is_array( $raw['allowed_mime_types'] ) ? $raw['allowed_mime_types'] : [];

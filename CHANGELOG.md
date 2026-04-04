@@ -1,5 +1,11 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.0.8] - 2026-04-04
+### Fixed
+- Impostazioni email: oggetto e corpo **mostrano sempre** il testo effettivo (predefinito incluso) dentro input e textarea, non solo come placeholder; al salvataggio i campi vuoti vengono ripersistiti con i testi predefiniti.
+### Changed
+- `Settings::normalize_email_templates()` resa pubblica per riuso in sanitizzazione salvataggio.
+
 ## [1.0.7] - 2026-04-04
 ### Changed
 - Template email al candidato: testi predefiniti più chiari e professionali (approvazione/rifiuto); fonte unica `Settings::default_email_templates()` anche in attivazione plugin.

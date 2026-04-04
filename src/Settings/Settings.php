@@ -48,7 +48,7 @@ final class Settings {
      * @param array<string, string> $stored
      * @return array<string, string>
      */
-    private static function normalize_email_templates( array $stored ): array {
+    public static function normalize_email_templates( array $stored ): array {
         $defaults = self::default_email_templates();
         $merged   = wp_parse_args( $stored, $defaults );
         foreach ( $defaults as $key => $default_value ) {

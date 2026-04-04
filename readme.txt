@@ -4,7 +4,7 @@ Contributors: franpass87
 Tags: forms, accreditation, workflow, approvals, email
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -31,6 +31,9 @@ Include:
 4. Configura in `FP Forms -> Accrediti Settings`.
 
 == Changelog ==
+
+= 1.0.8 = (2026-04-04)
+* Fixed: in Accrediti Settings i template email approvazione/rifiuto mostrano il testo predefinito nei campi (value/textarea), non solo come hint.
 
 = 1.0.7 = (2026-04-04)
 * Changed: testi email predefiniti al candidato più completi; campi vuoti ripristinano sempre il predefinito.

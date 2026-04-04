@@ -4,6 +4,10 @@ declare(strict_types=1);
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
+	is_array( $settings['email_templates'] ?? null ) ? $settings['email_templates'] : []
+);
 ?>
 <div class="wrap fpfa-admin fpfa-settings-page">
 	<h1 class="screen-reader-text"><?php esc_html_e( 'Impostazioni Accrediti', 'fp-forms-accrediti' ); ?></h1>
@@ -190,11 +194,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<h3 class="fpfa-email-section-title"><?php esc_html_e( 'Email di approvazione', 'fp-forms-accrediti' ); ?></h3>
 					<div class="fpfa-field">
 						<label for="approval_subject"><?php esc_html_e( 'Oggetto', 'fp-forms-accrediti' ); ?></label>
-						<input type="text" id="approval_subject" class="large-text" name="settings[email_templates][approval_subject]" value="<?php echo esc_attr( (string) ( $settings['email_templates']['approval_subject'] ?? '' ) ); ?>" placeholder="<?php echo esc_attr( (string) ( $fpfa_email_defaults['approval_subject'] ?? '' ) ); ?>">
+						<input type="text" id="approval_subject" class="large-text" name="settings[email_templates][approval_subject]" value="<?php echo esc_attr( (string) ( $fpfa_mail_ui['approval_subject'] ?? '' ) ); ?>" placeholder="<?php esc_attr_e( 'Es. Accredito approvato — {site_name}', 'fp-forms-accrediti' ); ?>">
 					</div>
 					<div class="fpfa-field">
 						<label for="approval_body"><?php esc_html_e( 'Corpo del messaggio', 'fp-forms-accrediti' ); ?></label>
-						<textarea id="approval_body" class="large-text" rows="10" name="settings[email_templates][approval_body]" placeholder="<?php echo esc_attr( (string) ( $fpfa_email_defaults['approval_body'] ?? '' ) ); ?>"><?php echo esc_textarea( (string) ( $settings['email_templates']['approval_body'] ?? '' ) ); ?></textarea>
+						<textarea id="approval_body" class="large-text" rows="10" name="settings[email_templates][approval_body]" placeholder="<?php esc_attr_e( 'Il testo predefinito è già compilato qui sopra; puoi modificarlo liberamente.', 'fp-forms-accrediti' ); ?>"><?php echo esc_textarea( (string) ( $fpfa_mail_ui['approval_body'] ?? '' ) ); ?></textarea>
 						<span class="fpfa-hint"><?php esc_html_e( 'Se nel testo non usi {decision_message}, il messaggio dell’operatore viene comunque aggiunto in coda al corpo.', 'fp-forms-accrediti' ); ?></span>
 					</div>
 				</div>
@@ -203,11 +207,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<h3 class="fpfa-email-section-title"><?php esc_html_e( 'Email di rifiuto', 'fp-forms-accrediti' ); ?></h3>
 					<div class="fpfa-field">
 						<label for="rejection_subject"><?php esc_html_e( 'Oggetto', 'fp-forms-accrediti' ); ?></label>
-						<input type="text" id="rejection_subject" class="large-text" name="settings[email_templates][rejection_subject]" value="<?php echo esc_attr( (string) ( $settings['email_templates']['rejection_subject'] ?? '' ) ); ?>" placeholder="<?php echo esc_attr( (string) ( $fpfa_email_defaults['rejection_subject'] ?? '' ) ); ?>">
+						<input type="text" id="rejection_subject" class="large-text" name="settings[email_templates][rejection_subject]" value="<?php echo esc_attr( (string) ( $fpfa_mail_ui['rejection_subject'] ?? '' ) ); ?>" placeholder="<?php esc_attr_e( 'Es. Aggiornamento richiesta accredito — {site_name}', 'fp-forms-accrediti' ); ?>">
 					</div>
 					<div class="fpfa-field">
 						<label for="rejection_body"><?php esc_html_e( 'Corpo del messaggio', 'fp-forms-accrediti' ); ?></label>
-						<textarea id="rejection_body" class="large-text" rows="10" name="settings[email_templates][rejection_body]" placeholder="<?php echo esc_attr( (string) ( $fpfa_email_defaults['rejection_body'] ?? '' ) ); ?>"><?php echo esc_textarea( (string) ( $settings['email_templates']['rejection_body'] ?? '' ) ); ?></textarea>
+						<textarea id="rejection_body" class="large-text" rows="10" name="settings[email_templates][rejection_body]" placeholder="<?php esc_attr_e( 'Il testo predefinito è già compilato qui sopra; puoi modificarlo liberamente.', 'fp-forms-accrediti' ); ?>"><?php echo esc_textarea( (string) ( $fpfa_mail_ui['rejection_body'] ?? '' ) ); ?></textarea>
 					</div>
 				</div>
 			</div>
