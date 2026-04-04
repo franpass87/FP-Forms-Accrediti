@@ -6,6 +6,7 @@ namespace FP\FormsAccrediti;
 use FP\FormsAccrediti\Admin\Menu;
 use FP\FormsAccrediti\Infrastructure\DependencyGuard;
 use FP\FormsAccrediti\Integration\FpFormsHooks;
+use FP\FormsAccrediti\Settings\Settings;
 
 /**
  * Bootstrap principale del plugin add-on accrediti.
@@ -42,5 +43,7 @@ final class Plugin {
 
         ( new FpFormsHooks() )->register();
         ( new Menu() )->register();
+
+        add_action( 'admin_init', [ Settings::class, 'maybe_persist_replacing_stub_email_templates' ], 5 );
     }
 }

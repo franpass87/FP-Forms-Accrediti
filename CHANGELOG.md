@@ -1,5 +1,11 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.0.9] - 2026-04-04
+### Fixed
+- Rilevazione e sostituzione automatica dei segnaposto di prova salvati in opzioni (`Subj A` / `Body A` / `Subj R` / `Body R`): correzione DB al primo `admin_init` e stessa logica in `normalize_email_templates`.
+### Added
+- Pulsante **Ripristina testi email predefiniti** in Accrediti Settings (azione `admin_post` dedicata) e notice di conferma.
+
 ## [1.0.8] - 2026-04-04
 ### Fixed
 - Impostazioni email: oggetto e corpo **mostrano sempre** il testo effettivo (predefinito incluso) dentro input e textarea, non solo come placeholder; al salvataggio i campi vuoti vengono ripersistiti con i testi predefiniti.

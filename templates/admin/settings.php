@@ -22,6 +22,9 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 	<?php if ( isset( $_GET['updated'] ) ) : ?>
 		<div class="notice notice-success"><p><?php esc_html_e( 'Impostazioni salvate.', 'fp-forms-accrediti' ); ?></p></div>
 	<?php endif; ?>
+	<?php if ( isset( $_GET['email_defaults_restored'] ) ) : ?>
+		<div class="notice notice-success"><p><?php esc_html_e( 'Testi email ripristinati ai predefiniti del plugin.', 'fp-forms-accrediti' ); ?></p></div>
+	<?php endif; ?>
 
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="fpfa-settings-form">
 		<?php wp_nonce_field( 'fp_forms_accrediti_save_settings' ); ?>
@@ -213,6 +216,15 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 						<label for="rejection_body"><?php esc_html_e( 'Corpo del messaggio', 'fp-forms-accrediti' ); ?></label>
 						<textarea id="rejection_body" class="large-text" rows="10" name="settings[email_templates][rejection_body]" placeholder="<?php esc_attr_e( 'Il testo predefinito è già compilato qui sopra; puoi modificarlo liberamente.', 'fp-forms-accrediti' ); ?>"><?php echo esc_textarea( (string) ( $fpfa_mail_ui['rejection_body'] ?? '' ) ); ?></textarea>
 					</div>
+				</div>
+
+				<div class="fpfa-email-reset-row">
+					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="fpfa-reset-email-form">
+						<?php wp_nonce_field( 'fp_forms_accrediti_reset_email_templates' ); ?>
+						<input type="hidden" name="action" value="fp_forms_accrediti_reset_email_templates">
+						<button type="submit" class="button button-secondary"><?php esc_html_e( 'Ripristina testi email predefiniti', 'fp-forms-accrediti' ); ?></button>
+					</form>
+					<p class="fpfa-email-reset-hint"><?php esc_html_e( 'Sostituisce oggetto e corpo di approvazione e rifiuto con i testi ufficiali del plugin (non modifica form, allegati o altre impostazioni).', 'fp-forms-accrediti' ); ?></p>
 				</div>
 			</div>
 		</div>

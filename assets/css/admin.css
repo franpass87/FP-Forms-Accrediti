@@ -463,6 +463,20 @@ body.fpfa-admin-shell #wpbody-content > .wrap.fpfa-settings-page {
     color: #6b7280;
 }
 
+.fpfa-email-reset-row {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.fpfa-email-reset-hint {
+    margin: 8px 0 0;
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.5;
+    max-width: 720px;
+}
+
 .fpfa-settings-footer {
     margin: 24px 0 32px;
     padding: 20px;

@@ -50,6 +50,9 @@ final class Settings {
      */
     public static function normalize_email_templates( array $stored ): array {
         $defaults = self::default_email_templates();
+        if ( self::is_stub_email_templates( $stored ) ) {
+            return $defaults;
+        }
         $merged   = wp_parse_args( $stored, $defaults );
         foreach ( $defaults as $key => $default_value ) {
             if ( trim( (string) ( $merged[ $key ] ?? '' ) ) === '' ) {
@@ -57,6 +60,49 @@ final class Settings {
             }
         }
         return $merged;
+    }
+
+    /**
+     * Se in opzioni ci sono ancora i segnaposto di prova (es. Subj A / Body A), sostituisce e salva.
+     */
+    public static function maybe_persist_replacing_stub_email_templates(): void {
+        if ( ! is_admin() || ! is_user_logged_in() ) {
+            return;
+        }
+        if ( ! current_user_can( 'manage_fp_forms' ) && ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+        $opt = get_option( 'fp_forms_accrediti_settings' );
+        if ( ! is_array( $opt ) || ! isset( $opt['email_templates'] ) || ! is_array( $opt['email_templates'] ) ) {
+            return;
+        }
+        if ( ! self::is_stub_email_templates( $opt['email_templates'] ) ) {
+            return;
+        }
+        $opt['email_templates'] = self::default_email_templates();
+        update_option( 'fp_forms_accrediti_settings', $opt, false );
+    }
+
+    /**
+     * Rileva la combinazione segnaposto di test salvata per errore nel database.
+     *
+     * @param array<string, string> $stored
+     */
+    private static function is_stub_email_templates( array $stored ): bool {
+        $keys = [ 'approval_subject', 'approval_body', 'rejection_subject', 'rejection_body' ];
+        $vals = [];
+        foreach ( $keys as $key ) {
+            $vals[ $key ] = strtolower( trim( (string) ( $stored[ $key ] ?? '' ) ) );
+        }
+        // Segnaposto tipici da test / bozze salvate per errore.
+        if ( $vals['approval_subject'] === 'subj a'
+            && $vals['approval_body'] === 'body a'
+            && $vals['rejection_subject'] === 'subj r'
+            && $vals['rejection_body'] === 'body r'
+        ) {
+            return true;
+        }
+        return false;
     }
 
     /**
