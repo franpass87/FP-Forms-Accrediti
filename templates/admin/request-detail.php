@@ -64,6 +64,28 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <input type="hidden" id="fpfa_attachment_id" name="attachment_id" value="">
                         <button type="button" class="button" id="fpfa_select_attachment"><?php esc_html_e( 'Seleziona allegato', 'fp-forms-accrediti' ); ?></button>
                         <span id="fpfa_attachment_label"></span>
+                        <?php
+                        $fpfa_default_att = \FP\FormsAccrediti\Settings\Settings::get_default_approval_attachment_id();
+                        if ( $fpfa_default_att > 0 ) :
+                            $fpfa_def_path = get_attached_file( $fpfa_default_att );
+                            $fpfa_def_name = $fpfa_def_path ? basename( $fpfa_def_path ) : '';
+                            ?>
+                        <p class="description fpfa-attachment-default-hint">
+                            <?php
+                            if ( $fpfa_def_name !== '' ) {
+                                echo esc_html(
+                                    sprintf(
+                                        /* translators: %s: PDF file name */
+                                        __( 'Se non scegli un file qui, verrà usato automaticamente il PDF predefinito dalle impostazioni: %s', 'fp-forms-accrediti' ),
+                                        $fpfa_def_name
+                                    )
+                                );
+                            } else {
+                                esc_html_e( 'Se non scegli un file qui, verrà usato automaticamente il PDF predefinito impostato in Accrediti Settings (se valido).', 'fp-forms-accrediti' );
+                            }
+                            ?>
+                        </p>
+                        <?php endif; ?>
                     </td>
                 </tr>
             </table>

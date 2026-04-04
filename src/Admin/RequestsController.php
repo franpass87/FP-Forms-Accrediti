@@ -151,6 +151,7 @@ final class RequestsController {
         $sanitized = [
             'enabled' => ! empty( $raw['enabled'] ),
             'operator_capability' => isset( $raw['operator_capability'] ) ? sanitize_key( (string) $raw['operator_capability'] ) : 'manage_fp_forms_accrediti',
+            'default_approval_attachment_id' => isset( $raw['default_approval_attachment_id'] ) ? absint( $raw['default_approval_attachment_id'] ) : 0,
             'allowed_mime_types' => [ 'application/pdf' ],
             'form_configs' => [],
             'email_templates' => [

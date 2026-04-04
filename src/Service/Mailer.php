@@ -102,26 +102,38 @@ final class Mailer {
     }
 
     /**
+     * Verifica se l'attachment è un file consentito per accredito (esiste, MIME in whitelist).
+     */
+    public function is_valid_acrediti_attachment( int $attachment_id ): bool {
+        if ( $attachment_id <= 0 ) {
+            return false;
+        }
+
+        $path = get_attached_file( $attachment_id );
+        if ( ! $path || ! file_exists( $path ) ) {
+            return false;
+        }
+
+        $mime_types = Settings::get()['allowed_mime_types'];
+        $mime       = get_post_mime_type( $attachment_id );
+        return is_array( $mime_types ) && in_array( $mime, $mime_types, true );
+    }
+
+    /**
      * Risolve allegato in path valido e consentito.
      *
      * @return array<int, string>
      */
     private function resolve_attachments( ?int $attachment_id ): array {
-        if ( ! $attachment_id ) {
+        if ( ! $attachment_id || $attachment_id <= 0 ) {
+            return [];
+        }
+
+        if ( ! $this->is_valid_acrediti_attachment( $attachment_id ) ) {
             return [];
         }
 
         $path = get_attached_file( $attachment_id );
-        if ( ! $path || ! file_exists( $path ) ) {
-            return [];
-        }
-
-        $mime_types = Settings::get()['allowed_mime_types'];
-        $mime = get_post_mime_type( $attachment_id );
-        if ( ! is_array( $mime_types ) || ! in_array( $mime, $mime_types, true ) ) {
-            return [];
-        }
-
-        return [ $path ];
+        return $path ? [ $path ] : [];
     }
 }

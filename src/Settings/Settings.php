@@ -16,6 +16,7 @@ final class Settings {
             'enabled' => true,
             'form_configs' => [],
             'allowed_mime_types' => [ 'application/pdf' ],
+            'default_approval_attachment_id' => 0,
             'operator_capability' => 'manage_fp_forms_accrediti',
             'email_templates' => [
                 'approval_subject' => __( 'La tua richiesta accredito è stata approvata - {site_name}', 'fp-forms-accrediti' ),
@@ -33,6 +34,7 @@ final class Settings {
         $settings = wp_parse_args( $settings, $defaults );
         $settings['enabled'] = ! empty( $settings['enabled'] );
         $settings['operator_capability'] = sanitize_key( (string) $settings['operator_capability'] ) ?: 'manage_fp_forms_accrediti';
+        $settings['default_approval_attachment_id'] = max( 0, (int) ( $settings['default_approval_attachment_id'] ?? 0 ) );
 
         if ( ! is_array( $settings['form_configs'] ) ) {
             $settings['form_configs'] = [];
@@ -80,5 +82,12 @@ final class Settings {
             'enabled' => true,
             'email_field' => isset( $config['email_field'] ) ? sanitize_key( (string) $config['email_field'] ) : '',
         ];
+    }
+
+    /**
+     * Restituisce l'ID allegato predefinito per email di approvazione (0 = non impostato).
+     */
+    public static function get_default_approval_attachment_id(): int {
+        return max( 0, (int) ( self::get()['default_approval_attachment_id'] ?? 0 ) );
     }
 }

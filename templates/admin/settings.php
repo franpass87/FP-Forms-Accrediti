@@ -32,6 +32,29 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <th scope="row"><label for="operator_capability"><?php esc_html_e( 'Capability operatore', 'fp-forms-accrediti' ); ?></label></th>
                 <td><input type="text" id="operator_capability" name="settings[operator_capability]" value="<?php echo esc_attr( (string) $settings['operator_capability'] ); ?>" class="regular-text"></td>
             </tr>
+            <tr>
+                <th scope="row"><?php esc_html_e( 'Allegato accredito predefinito', 'fp-forms-accrediti' ); ?></th>
+                <td>
+                    <input type="hidden" id="fpfa_default_approval_attachment_id" name="settings[default_approval_attachment_id]" value="<?php echo esc_attr( (string) (int) ( $settings['default_approval_attachment_id'] ?? 0 ) ); ?>">
+                    <button type="button" class="button" id="fpfa_select_default_attachment"><?php esc_html_e( 'Seleziona PDF dalla libreria', 'fp-forms-accrediti' ); ?></button>
+                    <button type="button" class="button" id="fpfa_clear_default_attachment"><?php esc_html_e( 'Rimuovi', 'fp-forms-accrediti' ); ?></button>
+                    <p class="description">
+                        <?php esc_html_e( 'Se impostato, viene allegato automaticamente all\'email di approvazione quando l\'operatore non sceglie un file. Puoi comunque scegliere un allegato diverso su ogni richiesta.', 'fp-forms-accrediti' ); ?>
+                    </p>
+                    <p id="fpfa_default_attachment_label" class="fpfa-default-attachment-label">
+                        <?php
+                        $fpfa_def_id = (int) ( $settings['default_approval_attachment_id'] ?? 0 );
+                        if ( $fpfa_def_id > 0 ) {
+                            $fpfa_def_path = get_attached_file( $fpfa_def_id );
+                            $fpfa_def_name = $fpfa_def_path ? basename( $fpfa_def_path ) : '';
+                            if ( $fpfa_def_name !== '' ) {
+                                echo esc_html( sprintf( /* translators: %1$s: filename, %2$d: attachment ID */ __( 'Attuale: %1$s (ID %2$d)', 'fp-forms-accrediti' ), $fpfa_def_name, $fpfa_def_id ) );
+                            }
+                        }
+                        ?>
+                    </p>
+                </td>
+            </tr>
         </table>
 
         <h2><?php esc_html_e( 'Form abilitati', 'fp-forms-accrediti' ); ?></h2>

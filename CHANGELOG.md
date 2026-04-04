@@ -1,5 +1,12 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.0.5] - 2026-04-04
+### Added
+- Impostazione **Allegato accredito predefinito** (PDF da Media Library): in approvazione, se l’operatore non seleziona un file, viene usato automaticamente questo allegato (stesse regole MIME dei singoli invii).
+- Testo guida nel dettaglio richiesta quando è impostato un PDF predefinito.
+### Changed
+- Media modal admin: filtro su PDF; stringhe JS traducibili via `wp_localize_script`.
+
 ## [1.0.4] - 2026-03-24
 ### Changed
 - Email approvazione/rifiuto: `Content-Type` HTML; il testo dei template (textarea, con placeholder sostituiti) viene convertito con `nl2br` e, se attivo **FP Mail SMTP**, avvolto con `fp_fpmail_brand_html()`. Senza FP Mail, documento HTML minimo di fallback.

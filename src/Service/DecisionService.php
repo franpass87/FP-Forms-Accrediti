@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace FP\FormsAccrediti\Service;
 
 use FP\FormsAccrediti\Domain\RequestRepository;
+use FP\FormsAccrediti\Settings\Settings;
 
 /**
  * Gestisce decisione approvazione/rifiuto richieste.
@@ -21,6 +22,9 @@ final class DecisionService {
 
     /**
      * Approva richiesta con invio email allegato.
+     *
+     * L'allegato effettivo è: file scelto dall'operatore se valido, altrimenti l'allegato predefinito
+     * impostato in Accrediti Settings (se valido), altrimenti nessun allegato.
      */
     public function approve( int $request_id, int $operator_id, string $decision_message, ?int $attachment_id ): bool {
         $request = $this->repository->find_by_id( $request_id );
@@ -28,12 +32,14 @@ final class DecisionService {
             return false;
         }
 
+        $effective_attachment_id = $this->resolve_effective_approval_attachment_id( $attachment_id );
+
         $context = $this->build_email_context( (int) $request->form_id );
 
         $email_sent = $this->mailer->send_approval_email(
             (string) $request->applicant_email,
             $decision_message,
-            $attachment_id,
+            $effective_attachment_id,
             $context
         );
 
@@ -41,7 +47,7 @@ final class DecisionService {
             return false;
         }
 
-        $updated = $this->repository->approve_request( $request_id, $operator_id, $decision_message, $attachment_id );
+        $updated = $this->repository->approve_request( $request_id, $operator_id, $decision_message, $effective_attachment_id );
         if ( ! $updated ) {
             return false;
         }
@@ -54,12 +60,29 @@ final class DecisionService {
                 'submission_id' => (int) $request->submission_id,
                 'form_id'       => (int) $request->form_id,
                 'operator_id'   => $operator_id,
-                'has_attachment'=> $attachment_id !== null,
+                'has_attachment'=> $effective_attachment_id !== null && $effective_attachment_id > 0,
                 'source_plugin' => 'fp-forms-accrediti',
             ]
         );
 
         return true;
+    }
+
+    /**
+     * Risolve ID allegato per l'email di approvazione (operatore → predefinito impostazioni).
+     */
+    private function resolve_effective_approval_attachment_id( ?int $operator_attachment_id ): ?int {
+        $op = $operator_attachment_id !== null ? (int) $operator_attachment_id : 0;
+        if ( $op > 0 && $this->mailer->is_valid_acrediti_attachment( $op ) ) {
+            return $op;
+        }
+
+        $default = Settings::get_default_approval_attachment_id();
+        if ( $default > 0 && $this->mailer->is_valid_acrediti_attachment( $default ) ) {
+            return $default;
+        }
+
+        return null;
     }
 
     /**

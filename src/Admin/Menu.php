@@ -76,5 +76,19 @@ final class Menu {
             FP_FORMS_ACCREDITI_VERSION,
             true
         );
+
+        wp_localize_script(
+            'fp-forms-accrediti-admin',
+            'fpFormsAccreditiAdmin',
+            [
+                'i18n' => [
+                    'selectRequestAttachment' => __( 'Seleziona allegato accredito', 'fp-forms-accrediti' ),
+                    'useThisFile'           => __( 'Usa questo file', 'fp-forms-accrediti' ),
+                    'selectDefaultPdf'      => __( 'Seleziona PDF predefinito per approvazioni', 'fp-forms-accrediti' ),
+                    'useAsDefault'          => __( 'Usa come predefinito', 'fp-forms-accrediti' ),
+                    'currentFile'           => __( 'Attuale: %1$s (ID %2$d)', 'fp-forms-accrediti' ),
+                ],
+            ]
+        );
     }
 }

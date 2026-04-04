@@ -13,7 +13,7 @@ Add-on opzionale per `FP Forms` che aggiunge un workflow di richieste accredito:
 - Creazione automatica richiesta accredito da nuove submission (solo form abilitati)
 - Stato richiesta: `pending`, `approved`, `rejected`
 - Pannello admin richieste con filtri e dettaglio
-- Approvazione con allegato via Media Library
+- Approvazione con allegato via Media Library (o **PDF predefinito** in impostazioni, senza riselezionarlo ogni volta)
 - Rifiuto con messaggio dedicato
 - Audit eventi per tracciamento operatore
 - Template email configurabili (testo convertito in HTML; con **FP Mail SMTP** attivo si applica il layout branding unificato)
