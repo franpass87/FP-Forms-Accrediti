@@ -90,6 +90,26 @@ final class RequestsController {
 
         check_admin_referer( 'fp_forms_accrediti_save_settings' );
 
+        if ( ! empty( $_POST['fpfa_restore_email_defaults'] ) ) {
+            $current = get_option( 'fp_forms_accrediti_settings', [] );
+            if ( ! is_array( $current ) ) {
+                $current = [];
+            }
+            $current['email_templates'] = Settings::default_email_templates();
+            update_option( 'fp_forms_accrediti_settings', $current );
+
+            wp_safe_redirect(
+                add_query_arg(
+                    [
+                        'page' => 'fp-forms-accrediti-settings',
+                        'email_defaults_restored' => 1,
+                    ],
+                    admin_url( 'admin.php' )
+                )
+            );
+            exit;
+        }
+
         $raw = isset( $_POST['settings'] ) && is_array( $_POST['settings'] ) ? wp_unslash( $_POST['settings'] ) : [];
         $settings = $this->sanitize_settings( $raw );
         update_option( 'fp_forms_accrediti_settings', $settings );
@@ -97,35 +117,6 @@ final class RequestsController {
         wp_safe_redirect(
             add_query_arg(
                 [ 'page' => 'fp-forms-accrediti-settings', 'updated' => 1 ],
-                admin_url( 'admin.php' )
-            )
-        );
-        exit;
-    }
-
-    /**
-     * Ripristina in opzioni i template email ai testi predefiniti del plugin.
-     */
-    public function handle_reset_email_templates(): void {
-        if ( ! Permissions::can_manage_accrediti() ) {
-            wp_die( esc_html__( 'Permessi insufficienti.', 'fp-forms-accrediti' ) );
-        }
-
-        check_admin_referer( 'fp_forms_accrediti_reset_email_templates' );
-
-        $current = get_option( 'fp_forms_accrediti_settings', [] );
-        if ( ! is_array( $current ) ) {
-            $current = [];
-        }
-        $current['email_templates'] = Settings::default_email_templates();
-        update_option( 'fp_forms_accrediti_settings', $current );
-
-        wp_safe_redirect(
-            add_query_arg(
-                [
-                    'page' => 'fp-forms-accrediti-settings',
-                    'email_defaults_restored' => 1,
-                ],
                 admin_url( 'admin.php' )
             )
         );

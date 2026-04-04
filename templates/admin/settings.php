@@ -9,11 +9,14 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 	is_array( $settings['email_templates'] ?? null ) ? $settings['email_templates'] : []
 );
 ?>
-<div class="wrap fpfa-admin fpfa-settings-page">
+<div class="wrap fpfa-admin fpfa-admin-page fpfa-settings-page">
 	<h1 class="screen-reader-text"><?php esc_html_e( 'Impostazioni Accrediti', 'fp-forms-accrediti' ); ?></h1>
 	<div class="fpfa-page-header">
 		<div class="fpfa-page-header-content">
-			<h2 class="fpfa-page-header-title" aria-hidden="true"><?php esc_html_e( 'Impostazioni Accrediti', 'fp-forms-accrediti' ); ?></h2>
+			<h2 class="fpfa-page-header-title" aria-hidden="true">
+				<span class="dashicons dashicons-admin-settings" aria-hidden="true"></span>
+				<?php esc_html_e( 'Impostazioni Accrediti', 'fp-forms-accrediti' ); ?>
+			</h2>
 			<p class="fpfa-page-header-desc"><?php esc_html_e( 'Collega i form FP Forms al workflow accredito, definisci chi può approvare e come sono scritte le email al candidato.', 'fp-forms-accrediti' ); ?></p>
 		</div>
 		<span class="fpfa-page-header-badge">v<?php echo esc_html( defined( 'FP_FORMS_ACCREDITI_VERSION' ) ? FP_FORMS_ACCREDITI_VERSION : '0' ); ?></span>
@@ -32,8 +35,10 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 
 		<div class="fpfa-card fpfa-card-intro">
 			<div class="fpfa-card-header">
-				<span class="dashicons dashicons-info" aria-hidden="true"></span>
-				<h2><?php esc_html_e( 'Come funziona', 'fp-forms-accrediti' ); ?></h2>
+				<div class="fpfa-card-header-left">
+					<span class="dashicons dashicons-info" aria-hidden="true"></span>
+					<h2><?php esc_html_e( 'Come funziona', 'fp-forms-accrediti' ); ?></h2>
+				</div>
 			</div>
 			<div class="fpfa-card-body">
 				<ol class="fpfa-steps-list">
@@ -46,10 +51,12 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 
 		<div class="fpfa-card">
 			<div class="fpfa-card-header">
-				<span class="dashicons dashicons-admin-settings" aria-hidden="true"></span>
-				<div class="fpfa-card-header-text">
-					<h2><?php esc_html_e( 'Generale', 'fp-forms-accrediti' ); ?></h2>
-					<p class="fpfa-card-lead"><?php esc_html_e( 'Attiva il modulo e indica quale permesso WordPress serve per vedere le pagine Accrediti e decidere le richieste.', 'fp-forms-accrediti' ); ?></p>
+				<div class="fpfa-card-header-left">
+					<span class="dashicons dashicons-admin-generic" aria-hidden="true"></span>
+					<div class="fpfa-card-header-text">
+						<h2><?php esc_html_e( 'Generale', 'fp-forms-accrediti' ); ?></h2>
+						<p class="fpfa-card-lead"><?php esc_html_e( 'Attiva il modulo e indica quale permesso WordPress serve per vedere le pagine Accrediti e decidere le richieste.', 'fp-forms-accrediti' ); ?></p>
+					</div>
 				</div>
 			</div>
 			<div class="fpfa-card-body">
@@ -65,7 +72,7 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 					</div>
 					<div class="fpfa-field">
 						<label for="operator_capability"><?php esc_html_e( 'Permesso operatore (capability)', 'fp-forms-accrediti' ); ?></label>
-						<input type="text" id="operator_capability" name="settings[operator_capability]" value="<?php echo esc_attr( (string) $settings['operator_capability'] ); ?>" class="regular-text fpfa-monospace-input" autocomplete="off">
+						<input type="text" id="operator_capability" name="settings[operator_capability]" value="<?php echo esc_attr( (string) $settings['operator_capability'] ); ?>" class="regular-text fpfa-input fpfa-monospace-input" autocomplete="off">
 						<span class="fpfa-hint"><?php esc_html_e( 'Suggerimento: lascia «manage_fp_forms» se gli stessi utenti che gestiscono FP Forms devono gestire anche gli accrediti. Solo chi ha questo permesso (o è amministratore) vede Accrediti e Accrediti Settings.', 'fp-forms-accrediti' ); ?></span>
 					</div>
 				</div>
@@ -74,10 +81,12 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 
 		<div class="fpfa-card">
 			<div class="fpfa-card-header">
-				<span class="dashicons dashicons-feedback" aria-hidden="true"></span>
-				<div class="fpfa-card-header-text">
-					<h2><?php esc_html_e( 'Form che generano una richiesta accredito', 'fp-forms-accrediti' ); ?></h2>
-					<p class="fpfa-card-lead"><?php esc_html_e( 'Per ogni riga: abilita il form e, se serve, indica esattamente quale campo contiene l’email del candidato.', 'fp-forms-accrediti' ); ?></p>
+				<div class="fpfa-card-header-left">
+					<span class="dashicons dashicons-feedback" aria-hidden="true"></span>
+					<div class="fpfa-card-header-text">
+						<h2><?php esc_html_e( 'Form che generano una richiesta accredito', 'fp-forms-accrediti' ); ?></h2>
+						<p class="fpfa-card-lead"><?php esc_html_e( 'Per ogni riga: abilita il form e, se serve, indica esattamente quale campo contiene l’email del candidato.', 'fp-forms-accrediti' ); ?></p>
+					</div>
 				</div>
 			</div>
 			<div class="fpfa-card-body">
@@ -97,7 +106,7 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 						</ul>
 					</div>
 					<div class="fpfa-table-scroll">
-						<table class="widefat striped fpfa-settings-table">
+						<table class="widefat striped fpfa-settings-table fpfa-table">
 							<thead>
 								<tr>
 									<th scope="col" class="fpfa-col-form"><?php esc_html_e( 'Form FP Forms', 'fp-forms-accrediti' ); ?></th>
@@ -122,7 +131,7 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 										</td>
 										<td>
 											<label class="fpfa-sr-only" for="fpfa_form_em_<?php echo esc_attr( $fid ); ?>"><?php echo esc_html( sprintf( /* translators: %s: form title */ __( 'Slug campo email per %s', 'fp-forms-accrediti' ), $form_item['title'] ) ); ?></label>
-											<input id="fpfa_form_em_<?php echo esc_attr( $fid ); ?>" type="text" name="settings[form_configs][<?php echo esc_attr( $fid ); ?>][email_field]" value="<?php echo esc_attr( (string) ( $cfg['email_field'] ?? '' ) ); ?>" class="regular-text fpfa-monospace-input" placeholder="<?php esc_attr_e( 'es. email (opzionale)', 'fp-forms-accrediti' ); ?>">
+											<input id="fpfa_form_em_<?php echo esc_attr( $fid ); ?>" type="text" name="settings[form_configs][<?php echo esc_attr( $fid ); ?>][email_field]" value="<?php echo esc_attr( (string) ( $cfg['email_field'] ?? '' ) ); ?>" class="regular-text fpfa-input fpfa-monospace-input" placeholder="<?php esc_attr_e( 'es. email (opzionale)', 'fp-forms-accrediti' ); ?>">
 										</td>
 									</tr>
 								<?php endforeach; ?>
@@ -135,10 +144,12 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 
 		<div class="fpfa-card">
 			<div class="fpfa-card-header">
-				<span class="dashicons dashicons-media-document" aria-hidden="true"></span>
-				<div class="fpfa-card-header-text">
-					<h2><?php esc_html_e( 'Documenti inviati al candidato', 'fp-forms-accrediti' ); ?></h2>
-					<p class="fpfa-card-lead"><?php esc_html_e( 'Solo i file consentiti possono essere allegati alle email di approvazione.', 'fp-forms-accrediti' ); ?></p>
+				<div class="fpfa-card-header-left">
+					<span class="dashicons dashicons-media-document" aria-hidden="true"></span>
+					<div class="fpfa-card-header-text">
+						<h2><?php esc_html_e( 'Documenti inviati al candidato', 'fp-forms-accrediti' ); ?></h2>
+						<p class="fpfa-card-lead"><?php esc_html_e( 'Solo i file consentiti possono essere allegati alle email di approvazione.', 'fp-forms-accrediti' ); ?></p>
+					</div>
 				</div>
 			</div>
 			<div class="fpfa-card-body">
@@ -147,8 +158,8 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 					<p class="fpfa-subsection-desc"><?php esc_html_e( 'Se lo imposti, l’operatore non deve più scegliere un file ogni volta: viene allegato automaticamente quando approva senza selezionare un altro PDF. Resta sempre possibile scegliere un file diverso sul singolo caso.', 'fp-forms-accrediti' ); ?></p>
 					<input type="hidden" id="fpfa_default_approval_attachment_id" name="settings[default_approval_attachment_id]" value="<?php echo esc_attr( (string) (int) ( $settings['default_approval_attachment_id'] ?? 0 ) ); ?>">
 					<div class="fpfa-btn-row">
-						<button type="button" class="button button-secondary" id="fpfa_select_default_attachment"><?php esc_html_e( 'Scegli PDF dalla libreria media', 'fp-forms-accrediti' ); ?></button>
-						<button type="button" class="button" id="fpfa_clear_default_attachment"><?php esc_html_e( 'Rimuovi predefinito', 'fp-forms-accrediti' ); ?></button>
+						<button type="button" class="button fpfa-btn fpfa-btn-secondary" id="fpfa_select_default_attachment"><?php esc_html_e( 'Scegli PDF dalla libreria media', 'fp-forms-accrediti' ); ?></button>
+						<button type="button" class="button fpfa-btn fpfa-btn-outline" id="fpfa_clear_default_attachment"><?php esc_html_e( 'Rimuovi predefinito', 'fp-forms-accrediti' ); ?></button>
 					</div>
 					<p id="fpfa_default_attachment_label" class="fpfa-default-attachment-label" aria-live="polite">
 						<?php
@@ -173,10 +184,12 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 
 		<div class="fpfa-card fpfa-card-email-templates">
 			<div class="fpfa-card-header">
-				<span class="dashicons dashicons-email-alt" aria-hidden="true"></span>
-				<div class="fpfa-card-header-text">
-					<h2><?php esc_html_e( 'Testi delle email al candidato', 'fp-forms-accrediti' ); ?></h2>
-					<p class="fpfa-card-lead"><?php esc_html_e( 'Oggetto e corpo per approvazione e rifiuto: è già presente un testo predefinito chiaro e professionale. Puoi personalizzarlo liberamente; se svuoti un campo e salvi, al caricamento successivo viene ripristinato il predefinito. Il testo è convertito in HTML e, con FP Mail SMTP attivo, riceve anche il layout grafico unificato.', 'fp-forms-accrediti' ); ?></p>
+				<div class="fpfa-card-header-left">
+					<span class="dashicons dashicons-email-alt" aria-hidden="true"></span>
+					<div class="fpfa-card-header-text">
+						<h2><?php esc_html_e( 'Testi delle email al candidato', 'fp-forms-accrediti' ); ?></h2>
+						<p class="fpfa-card-lead"><?php esc_html_e( 'Oggetto e corpo per approvazione e rifiuto: è già presente un testo predefinito chiaro e professionale. Puoi personalizzarlo liberamente; se svuoti un campo e salvi, al caricamento successivo viene ripristinato il predefinito. Il testo è convertito in HTML e, con FP Mail SMTP attivo, riceve anche il layout grafico unificato.', 'fp-forms-accrediti' ); ?></p>
+					</div>
 				</div>
 			</div>
 			<div class="fpfa-card-body">
@@ -197,11 +210,11 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 					<h3 class="fpfa-email-section-title"><?php esc_html_e( 'Email di approvazione', 'fp-forms-accrediti' ); ?></h3>
 					<div class="fpfa-field">
 						<label for="approval_subject"><?php esc_html_e( 'Oggetto', 'fp-forms-accrediti' ); ?></label>
-						<input type="text" id="approval_subject" class="large-text" name="settings[email_templates][approval_subject]" value="<?php echo esc_attr( (string) ( $fpfa_mail_ui['approval_subject'] ?? '' ) ); ?>" placeholder="<?php esc_attr_e( 'Es. Accredito approvato — {site_name}', 'fp-forms-accrediti' ); ?>">
+						<input type="text" id="approval_subject" class="large-text fpfa-input" name="settings[email_templates][approval_subject]" value="<?php echo esc_attr( (string) ( $fpfa_mail_ui['approval_subject'] ?? '' ) ); ?>" placeholder="<?php esc_attr_e( 'Es. Accredito approvato — {site_name}', 'fp-forms-accrediti' ); ?>">
 					</div>
 					<div class="fpfa-field">
 						<label for="approval_body"><?php esc_html_e( 'Corpo del messaggio', 'fp-forms-accrediti' ); ?></label>
-						<textarea id="approval_body" class="large-text" rows="10" name="settings[email_templates][approval_body]" placeholder="<?php esc_attr_e( 'Il testo predefinito è già compilato qui sopra; puoi modificarlo liberamente.', 'fp-forms-accrediti' ); ?>"><?php echo esc_textarea( (string) ( $fpfa_mail_ui['approval_body'] ?? '' ) ); ?></textarea>
+						<textarea id="approval_body" class="large-text fpfa-input" rows="10" name="settings[email_templates][approval_body]" placeholder="<?php esc_attr_e( 'Il testo predefinito è già compilato qui sopra; puoi modificarlo liberamente.', 'fp-forms-accrediti' ); ?>"><?php echo esc_textarea( (string) ( $fpfa_mail_ui['approval_body'] ?? '' ) ); ?></textarea>
 						<span class="fpfa-hint"><?php esc_html_e( 'Se nel testo non usi {decision_message}, il messaggio dell’operatore viene comunque aggiunto in coda al corpo.', 'fp-forms-accrediti' ); ?></span>
 					</div>
 				</div>
@@ -210,27 +223,26 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 					<h3 class="fpfa-email-section-title"><?php esc_html_e( 'Email di rifiuto', 'fp-forms-accrediti' ); ?></h3>
 					<div class="fpfa-field">
 						<label for="rejection_subject"><?php esc_html_e( 'Oggetto', 'fp-forms-accrediti' ); ?></label>
-						<input type="text" id="rejection_subject" class="large-text" name="settings[email_templates][rejection_subject]" value="<?php echo esc_attr( (string) ( $fpfa_mail_ui['rejection_subject'] ?? '' ) ); ?>" placeholder="<?php esc_attr_e( 'Es. Aggiornamento richiesta accredito — {site_name}', 'fp-forms-accrediti' ); ?>">
+						<input type="text" id="rejection_subject" class="large-text fpfa-input" name="settings[email_templates][rejection_subject]" value="<?php echo esc_attr( (string) ( $fpfa_mail_ui['rejection_subject'] ?? '' ) ); ?>" placeholder="<?php esc_attr_e( 'Es. Aggiornamento richiesta accredito — {site_name}', 'fp-forms-accrediti' ); ?>">
 					</div>
 					<div class="fpfa-field">
 						<label for="rejection_body"><?php esc_html_e( 'Corpo del messaggio', 'fp-forms-accrediti' ); ?></label>
-						<textarea id="rejection_body" class="large-text" rows="10" name="settings[email_templates][rejection_body]" placeholder="<?php esc_attr_e( 'Il testo predefinito è già compilato qui sopra; puoi modificarlo liberamente.', 'fp-forms-accrediti' ); ?>"><?php echo esc_textarea( (string) ( $fpfa_mail_ui['rejection_body'] ?? '' ) ); ?></textarea>
+						<textarea id="rejection_body" class="large-text fpfa-input" rows="10" name="settings[email_templates][rejection_body]" placeholder="<?php esc_attr_e( 'Il testo predefinito è già compilato qui sopra; puoi modificarlo liberamente.', 'fp-forms-accrediti' ); ?>"><?php echo esc_textarea( (string) ( $fpfa_mail_ui['rejection_body'] ?? '' ) ); ?></textarea>
 					</div>
 				</div>
 
 				<div class="fpfa-email-reset-row">
-					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="fpfa-reset-email-form">
-						<?php wp_nonce_field( 'fp_forms_accrediti_reset_email_templates' ); ?>
-						<input type="hidden" name="action" value="fp_forms_accrediti_reset_email_templates">
-						<button type="submit" class="button button-secondary"><?php esc_html_e( 'Ripristina testi email predefiniti', 'fp-forms-accrediti' ); ?></button>
-					</form>
+					<button type="submit" name="fpfa_restore_email_defaults" value="1" class="button fpfa-btn fpfa-btn-secondary"><?php esc_html_e( 'Ripristina testi email predefiniti', 'fp-forms-accrediti' ); ?></button>
 					<p class="fpfa-email-reset-hint"><?php esc_html_e( 'Sostituisce oggetto e corpo di approvazione e rifiuto con i testi ufficiali del plugin (non modifica form, allegati o altre impostazioni).', 'fp-forms-accrediti' ); ?></p>
 				</div>
 			</div>
 		</div>
 
 		<div class="fpfa-settings-footer">
-			<button type="submit" class="button button-primary button-hero fpfa-save-settings"><?php esc_html_e( 'Salva tutte le impostazioni', 'fp-forms-accrediti' ); ?></button>
+			<button type="submit" class="button fpfa-btn fpfa-btn-primary fpfa-btn-lg fpfa-save-settings">
+				<span class="dashicons dashicons-saved" aria-hidden="true"></span>
+				<?php esc_html_e( 'Salva tutte le impostazioni', 'fp-forms-accrediti' ); ?>
+			</button>
 			<p class="fpfa-save-hint"><?php esc_html_e( 'Un solo salvataggio applica modulo, form, documenti e template email.', 'fp-forms-accrediti' ); ?></p>
 		</div>
 	</form>

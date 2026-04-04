@@ -1,6 +1,6 @@
 # FP Forms Accrediti
 
-![Version](https://img.shields.io/badge/version-1.0.9-blue)
+![Version](https://img.shields.io/badge/version-1.0.10-blue)
 
 Add-on opzionale per `FP Forms` che aggiunge un workflow di richieste accredito: creazione richiesta pending da submission, revisione operatore, approvazione/rifiuto con email dedicata e allegato.
 
@@ -14,7 +14,7 @@ Add-on opzionale per `FP Forms` che aggiunge un workflow di richieste accredito:
 
 - Creazione automatica richiesta accredito da nuove submission (solo form abilitati)
 - Stato richiesta: `pending`, `approved`, `rejected`
-- Pannello admin richieste con filtri e dettaglio
+- Pannello admin richieste con filtri e dettaglio (UI allineata al **design system FP**: banner gradiente, card, tabelle, bottoni)
 - Approvazione con allegato via Media Library (o **PDF predefinito** in impostazioni, senza riselezionarlo ogni volta)
 - Rifiuto con messaggio dedicato
 - Audit eventi per tracciamento operatore

@@ -23,7 +23,6 @@ final class Menu {
     public function register(): void {
         add_action( 'admin_menu', [ $this, 'register_menu' ], 20 );
         add_action( 'admin_post_fp_forms_accrediti_save_settings', [ $this->controller, 'handle_save_settings' ] );
-        add_action( 'admin_post_fp_forms_accrediti_reset_email_templates', [ $this->controller, 'handle_reset_email_templates' ] );
         add_action( 'admin_post_fp_forms_accrediti_decide_request', [ $this->controller, 'handle_decision' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
         add_filter( 'admin_body_class', [ $this, 'filter_admin_body_class' ] );
@@ -37,7 +36,7 @@ final class Menu {
     public function filter_admin_body_class( string $classes ): string {
         $page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
         if ( $page !== '' && strpos( $page, 'fp-forms-accrediti' ) === 0 ) {
-            return trim( $classes . ' fpfa-admin-shell' );
+            return trim( $classes . ' fpfa-admin-shell fp-forms-accrediti-admin' );
         }
         return $classes;
     }

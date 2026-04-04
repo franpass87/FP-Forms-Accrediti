@@ -3,6 +3,9 @@
 ## [1.0.10] - 2026-04-04
 ### Changed
 - Eventi `fp_tracking_event` (creato/approvato/rifiutato): aggiunto `event_id` stabile per deduplica GA4 lato server.
+- Admin Accrediti: UI allineata al **FP Admin UI Design System** (token `--fpdms-*`, banner pagina, card con `fpfa-card-header-left`, tabella impostazioni e lista con `thead` a gradiente, bottoni `.fpfa-btn`, focus input, alert con bordo sinistro); classe body `fp-forms-accrediti-admin`.
+### Fixed
+- **Ripristina testi email**: un solo form impostazioni (niente form annidato); invio tramite `fpfa_restore_email_defaults` in `handle_save_settings` (rimossa `admin_post` dedicata).
 
 ## [1.0.9] - 2026-04-04
 ### Fixed

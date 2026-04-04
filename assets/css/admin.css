@@ -1,224 +1,250 @@
-/* FP Design System - Page Header (grafica unificata) */
+/**
+ * FP Forms Accrediti — admin UI (allineato a FP Admin UI Design System).
+ */
+
 :root {
-    --fpfa-gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --fpdms-primary: #667eea;
+    --fpdms-primary-dark: #764ba2;
+    --fpdms-gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --fpdms-secondary: #11998e;
+    --fpdms-gradient-secondary: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    --fpdms-success: #10b981;
+    --fpdms-success-bg: #d1fae5;
+    --fpdms-success-text: #065f46;
+    --fpdms-warning: #f59e0b;
+    --fpdms-warning-bg: #fef3c7;
+    --fpdms-warning-text: #92400e;
+    --fpdms-danger: #ef4444;
+    --fpdms-danger-bg: #fee2e2;
+    --fpdms-danger-text: #991b1b;
+    --fpdms-info: #3b82f6;
+    --fpdms-info-bg: #dbeafe;
+    --fpdms-info-text: #1e40af;
+    --fpdms-text: #1f2937;
+    --fpdms-text-light: #4b5563;
+    --fpdms-text-muted: #9ca3af;
+    --fpdms-border: #e5e7eb;
+    --fpdms-border-light: #f3f4f6;
+    --fpdms-bg-white: #ffffff;
+    --fpdms-bg-light: #f9fafb;
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-pill: 999px;
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.fpfa-page-header {
-    background: var(--fpfa-gradient-primary);
-    padding: 24px 28px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    margin-bottom: 20px;
+/* Notice WP + wrap: margine sotto le notice (menu sotto FP Forms) */
+body.fp-forms-accrediti-admin #wpbody-content > .wrap.fpfa-admin-page,
+body.fpfa-admin-shell #wpbody-content > .wrap.fpfa-admin-page {
+    margin-top: 12px;
+}
+
+/* —— Banner pagina (standard FP Mail / design system) —— */
+.fpfa-admin-page .fpfa-page-header {
+    background: var(--fpdms-gradient-primary);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    align-items: center;
     flex-wrap: wrap;
+    gap: 1rem;
+    color: #fff;
 }
 
 .fpfa-page-header-content {
     flex: 1;
-    min-width: 0;
+    min-width: 200px;
 }
 
-.fpfa-page-header-title {
-    margin: 0 0 4px;
-    font-size: 22px;
-    font-weight: 700;
+.fpfa-page-header .fpfa-page-header-title {
+    margin: 0 0 0.25rem 0;
     color: #fff !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.3;
 }
 
-.fpfa-page-header-desc {
+.fpfa-page-header .fpfa-page-header-title .dashicons {
+    font-size: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+    color: #fff;
+}
+
+.fpfa-page-header .fpfa-page-header-desc,
+.fpfa-page-header p.fpfa-page-header-desc {
     margin: 0;
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.88) !important;
+    opacity: 0.95;
+    font-size: 0.95rem;
+    color: #fff !important;
+    line-height: 1.5;
+}
+
+.fpfa-page-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    flex-wrap: wrap;
 }
 
 .fpfa-page-header-badge {
-    background: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 999px;
-    padding: 5px 12px;
-    font-size: 11px;
+    background: rgba(255, 255, 255, 0.25);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.8rem;
     font-weight: 600;
     color: #fff;
     white-space: nowrap;
-    flex-shrink: 0;
 }
 
-.fpfa-page-header .fpfa-page-header-btn {
-    background: rgba(255, 255, 255, 0.25);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.4);
+.fpfa-btn.fpfa-page-header-link,
+.fpfa-btn.fpfa-btn-ghost {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: none;
 }
 
-.fpfa-page-header .fpfa-page-header-btn:hover {
-    background: rgba(255, 255, 255, 0.35);
-    color: #fff;
+.fpfa-btn.fpfa-page-header-link:hover,
+.fpfa-btn.fpfa-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.32);
+    color: #fff !important;
+    border-color: rgba(255, 255, 255, 0.6);
 }
 
-.fpfa-admin .fpfa-filters {
-    display: flex;
-    gap: 8px;
-    margin: 12px 0 16px;
+/* —— Bottoni FP —— */
+.fpfa-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 1.4;
+    padding: 0.5rem 1rem;
+    min-height: 36px;
+    transition: var(--transition);
+    cursor: pointer;
+    text-decoration: none;
+    box-sizing: border-box;
 }
 
-/* Card e sezioni template email */
+.fpfa-btn .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+.fpfa-btn-primary {
+    background: var(--fpdms-gradient-primary) !important;
+    border: none !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+}
+
+.fpfa-btn-primary:hover,
+.fpfa-btn-primary:focus {
+    filter: brightness(1.05);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.45);
+    color: #fff !important;
+    transform: translateY(-1px);
+}
+
+.fpfa-btn-secondary {
+    background: var(--fpdms-bg-light) !important;
+    border: 2px solid var(--fpdms-border) !important;
+    color: var(--fpdms-text) !important;
+}
+
+.fpfa-btn-secondary:hover {
+    border-color: var(--fpdms-primary) !important;
+    color: var(--fpdms-primary-dark) !important;
+}
+
+.fpfa-btn-outline {
+    background: #fff !important;
+    border: 2px solid var(--fpdms-border) !important;
+    color: var(--fpdms-text-light) !important;
+}
+
+.fpfa-btn-outline:hover {
+    border-color: var(--fpdms-primary) !important;
+    color: var(--fpdms-primary) !important;
+}
+
+.fpfa-btn-lg {
+    padding: 0.65rem 1.5rem;
+    min-height: 44px;
+    font-size: 14px;
+}
+
+.fpfa-btn-sm {
+    min-height: 28px;
+    padding: 2px 12px;
+    font-size: 12px;
+}
+
+.fpfa-save-settings.fpfa-btn-lg .dashicons {
+    margin-top: 1px;
+}
+
+/* —— Card —— */
 .fpfa-card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    margin: 20px 0;
+    background: var(--fpdms-bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 1.25rem;
     overflow: hidden;
+    transition: var(--transition);
+}
+
+.fpfa-card:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
 }
 
 .fpfa-card-header {
-    background: #f9fafb;
-    border-bottom: 2px solid #f3f4f6;
-    padding: 16px 20px;
+    background: var(--fpdms-bg-light);
+    border-bottom: 2px solid var(--fpdms-border-light);
+    padding: 1rem 1.25rem;
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-.fpfa-card-header .dashicons {
-    color: #667eea;
+.fpfa-card-header-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.fpfa-card-header-left > .dashicons {
+    color: var(--fpdms-primary);
     font-size: 22px;
     width: 22px;
     height: 22px;
+    margin-top: 2px;
+    flex-shrink: 0;
 }
 
-.fpfa-card-header h2 {
+.fpfa-card-header-left > h2 {
     margin: 0;
     font-size: 16px;
-}
-
-.fpfa-card-body {
-    padding: 20px;
-}
-
-.fpfa-card-desc {
-    margin-bottom: 16px;
-    color: #4b5563;
-}
-
-.fpfa-tags-hint {
-    background: #f3f4f6;
-    padding: 12px 16px;
-    border-radius: 8px;
-    margin-bottom: 24px;
-    font-size: 13px;
-}
-
-.fpfa-tags-hint code {
-    background: #e5e7eb;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 12px;
-    margin: 0 2px;
-}
-
-.fpfa-email-section {
-    margin-bottom: 28px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.fpfa-email-section:last-of-type {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: 0;
-}
-
-.fpfa-email-section-title {
-    font-size: 14px;
-    margin: 0 0 12px;
-    color: #1f2937;
-}
-
-.fpfa-field {
-    margin-bottom: 16px;
-}
-
-.fpfa-field label {
-    display: block;
-    margin-bottom: 6px;
     font-weight: 600;
-}
-
-.fpfa-field input[type="text"],
-.fpfa-field textarea {
-    width: 100%;
-    max-width: 600px;
-}
-
-.fpfa-hint {
-    display: block;
-    margin-top: 6px;
-    font-size: 12px;
-    color: #6b7280;
-}
-
-.fpfa-attachment-default-hint {
-    margin-top: 8px;
-}
-
-.fpfa-default-attachment-label {
-    margin-top: 6px;
-    font-weight: 600;
-}
-
-.fpfa-status {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.fpfa-status-pending {
-    background: #fef3c7;
-    color: #92400e;
-}
-
-.fpfa-status-approved {
-    background: #dcfce7;
-    color: #166534;
-}
-
-.fpfa-status-rejected {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-/* Pagina Impostazioni — layout e chiarezza */
-body.fpfa-admin-shell #wpbody-content > .wrap.fpfa-settings-page {
-    margin-top: 12px;
-}
-
-.fpfa-settings-page .fpfa-card-intro .fpfa-card-header {
-    background: #eff6ff;
-    border-bottom-color: #bfdbfe;
-}
-
-.fpfa-settings-page .fpfa-card-intro .dashicons {
-    color: #2563eb;
-}
-
-.fpfa-steps-list {
-    margin: 0;
-    padding-left: 1.35rem;
-    color: #374151;
-    line-height: 1.65;
-}
-
-.fpfa-steps-list li {
-    margin-bottom: 8px;
-}
-
-.fpfa-steps-list li:last-child {
-    margin-bottom: 0;
+    color: var(--fpdms-text);
 }
 
 .fpfa-card-header-text {
@@ -229,16 +255,32 @@ body.fpfa-admin-shell #wpbody-content > .wrap.fpfa-settings-page {
 .fpfa-card-header-text h2 {
     margin: 0 0 4px;
     font-size: 16px;
+    font-weight: 600;
+    color: var(--fpdms-text);
+}
+
+.fpfa-card-body {
+    padding: 1.25rem 1.5rem;
 }
 
 .fpfa-card-lead {
     margin: 0;
     font-size: 13px;
-    color: #6b7280;
-    line-height: 1.5;
+    color: var(--fpdms-text-light);
+    line-height: 1.55;
     max-width: 820px;
 }
 
+.fpfa-settings-page .fpfa-card-intro .fpfa-card-header {
+    background: var(--fpdms-info-bg);
+    border-bottom-color: #bfdbfe;
+}
+
+.fpfa-settings-page .fpfa-card-intro .fpfa-card-header-left > .dashicons {
+    color: var(--fpdms-info);
+}
+
+/* —— Campi / input —— */
 .fpfa-fields-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -250,15 +292,66 @@ body.fpfa-admin-shell #wpbody-content > .wrap.fpfa-settings-page {
     grid-column: 1 / -1;
 }
 
+.fpfa-field {
+    margin-bottom: 16px;
+}
+
+.fpfa-field label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: var(--fpdms-text);
+}
+
+.fpfa-input.regular-text,
+.fpfa-input.large-text,
+input.fpfa-input,
+textarea.fpfa-input {
+    width: 100%;
+    max-width: 100%;
+    border: 2px solid var(--fpdms-border) !important;
+    border-radius: var(--radius-md) !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fpfa-settings-page .fpfa-field input[type="text"].large-text,
+.fpfa-settings-page .fpfa-field textarea.large-text {
+    max-width: 100%;
+}
+
+.fpfa-input:focus {
+    border-color: var(--fpdms-primary) !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+    outline: none !important;
+}
+
+.fpfa-monospace-input {
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-size: 13px;
+}
+
+.fpfa-hint {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--fpdms-text-muted);
+    line-height: 1.45;
+}
+
 .fpfa-toggle-label {
     display: flex;
     align-items: flex-start;
     gap: 12px;
     cursor: pointer;
-    padding: 12px 14px;
-    background: #f9fafb;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
+    padding: 14px 16px;
+    background: var(--fpdms-bg-light);
+    border-radius: var(--radius-md);
+    border: 2px solid var(--fpdms-border);
+    transition: var(--transition);
+}
+
+.fpfa-toggle-label:hover {
+    border-color: rgba(102, 126, 234, 0.35);
 }
 
 .fpfa-toggle-label input {
@@ -273,29 +366,25 @@ body.fpfa-admin-shell #wpbody-content > .wrap.fpfa-settings-page {
 }
 
 .fpfa-toggle-text strong {
-    color: #111827;
+    color: var(--fpdms-text);
 }
 
 .fpfa-hint-inline {
     font-size: 12px;
     font-weight: 400;
-    color: #6b7280;
+    color: var(--fpdms-text-light);
     line-height: 1.45;
 }
 
-.fpfa-monospace-input {
-    font-family: Consolas, Monaco, monospace;
-    font-size: 13px;
-}
-
+/* —— Tabella settings + lista —— */
 .fpfa-table-legend {
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
+    background: var(--fpdms-bg-light);
+    border: 1px solid var(--fpdms-border);
+    border-radius: var(--radius-md);
     padding: 12px 16px;
     margin-bottom: 16px;
     font-size: 13px;
-    color: #4b5563;
+    color: var(--fpdms-text-light);
 }
 
 .fpfa-table-legend ul {
@@ -313,19 +402,43 @@ body.fpfa-admin-shell #wpbody-content > .wrap.fpfa-settings-page {
 
 .fpfa-table-scroll {
     overflow-x: auto;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--fpdms-border);
 }
 
-.fpfa-settings-table {
+.fpfa-table.fpfa-settings-table {
     margin: 0;
     border: 0;
 }
 
-.fpfa-settings-table thead th {
+.fpfa-table.fpfa-settings-table thead th {
+    background: var(--fpdms-gradient-primary) !important;
+    color: #fff !important;
     font-weight: 600;
-    color: #1f2937;
-    background: #f3f4f6;
+    border: none;
+    padding: 12px 14px;
+}
+
+.fpfa-table.fpfa-settings-table tbody td {
+    padding: 12px 14px;
+    vertical-align: middle;
+}
+
+.fpfa-table.fpfa-settings-table tbody tr:nth-child(odd) {
+    background: var(--fpdms-bg-light);
+}
+
+/* Tabella lista richieste (wp-list-table) */
+.fpfa-admin-page table.fpfa-list-table.widefat thead th,
+.fpfa-admin-page table.fpfa-list-table.widefat thead td {
+    background: var(--fpdms-gradient-primary) !important;
+    color: #fff !important;
+    font-weight: 600;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.fpfa-admin-page table.fpfa-list-table.widefat tbody tr:nth-child(odd) {
+    background: var(--fpdms-bg-light);
 }
 
 .fpfa-col-form {
@@ -345,18 +458,205 @@ body.fpfa-admin-shell #wpbody-content > .wrap.fpfa-settings-page {
     display: inline-block;
     font-family: Consolas, Monaco, monospace;
     font-size: 12px;
-    color: #6b7280;
+    color: var(--fpdms-text-muted);
     margin-right: 8px;
 }
 
 .fpfa-form-title {
     font-weight: 600;
-    color: #111827;
+    color: var(--fpdms-text);
 }
 
 .fpfa-td-center {
     text-align: center;
-    vertical-align: middle;
+}
+
+/* —— Alert / notice interne —— */
+.fpfa-alert {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--fpdms-border);
+    border-left-width: 4px;
+}
+
+.fpfa-alert .dashicons {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.fpfa-alert-warning {
+    background: var(--fpdms-warning-bg);
+    border-left-color: var(--fpdms-warning);
+}
+
+.fpfa-alert-warning .dashicons {
+    color: var(--fpdms-warning);
+}
+
+.fpfa-alert-warning p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--fpdms-warning-text);
+}
+
+.fpfa-alert-info {
+    background: var(--fpdms-info-bg);
+    border-left-color: var(--fpdms-info);
+}
+
+.fpfa-alert-info .dashicons {
+    color: var(--fpdms-info);
+}
+
+.fpfa-alert-info p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--fpdms-info-text);
+}
+
+.fpfa-alert-info strong {
+    color: #1e3a8a;
+}
+
+.fpfa-email-preset-notice {
+    margin-bottom: 16px;
+}
+
+/* —— Tag / email sections —— */
+.fpfa-tags-hint {
+    background: var(--fpdms-border-light);
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    margin-bottom: 24px;
+    font-size: 13px;
+    border: 1px solid var(--fpdms-border);
+}
+
+.fpfa-tags-hint code {
+    background: var(--fpdms-bg-white);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin: 0 3px 3px 0;
+    border: 1px solid var(--fpdms-border);
+    color: var(--fpdms-primary-dark);
+}
+
+.fpfa-tags-hint-extra {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--fpdms-text-light);
+}
+
+.fpfa-email-section {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--fpdms-border);
+}
+
+.fpfa-email-section:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.fpfa-email-section-title {
+    font-size: 14px;
+    margin: 0 0 14px;
+    color: var(--fpdms-text);
+    font-weight: 600;
+}
+
+.fpfa-steps-list {
+    margin: 0;
+    padding-left: 1.35rem;
+    color: var(--fpdms-text-light);
+    line-height: 1.65;
+}
+
+.fpfa-steps-list li {
+    margin-bottom: 8px;
+}
+
+.fpfa-steps-list li:last-child {
+    margin-bottom: 0;
+}
+
+.fpfa-subsection-title {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: var(--fpdms-text);
+    font-weight: 600;
+}
+
+.fpfa-subsection-desc {
+    margin: 0 0 14px;
+    font-size: 13px;
+    color: var(--fpdms-text-light);
+    line-height: 1.55;
+    max-width: 720px;
+}
+
+.fpfa-subsection-divider {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--fpdms-border);
+}
+
+.fpfa-static-note {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: var(--fpdms-text-light);
+    line-height: 1.55;
+    max-width: 720px;
+}
+
+.fpfa-btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.fpfa-default-attachment-label {
+    margin-top: 8px;
+    font-weight: 600;
+    color: var(--fpdms-text);
+}
+
+.fpfa-email-reset-row {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--fpdms-border);
+}
+
+.fpfa-email-reset-hint {
+    margin: 10px 0 0;
+    font-size: 12px;
+    color: var(--fpdms-text-muted);
+    line-height: 1.5;
+    max-width: 720px;
+}
+
+.fpfa-settings-footer {
+    margin: 24px 0 32px;
+    padding: 1.5rem;
+    background: var(--fpdms-bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    text-align: center;
+    border: 1px solid var(--fpdms-border-light);
+}
+
+.fpfa-save-hint {
+    margin: 12px 0 0;
+    font-size: 12px;
+    color: var(--fpdms-text-muted);
 }
 
 .fpfa-sr-only {
@@ -371,130 +671,60 @@ body.fpfa-admin-shell #wpbody-content > .wrap.fpfa-settings-page {
     border: 0;
 }
 
-.fpfa-alert {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    padding: 14px 16px;
-    border-radius: 8px;
-    border: 1px solid #fcd34d;
-    background: #fffbeb;
-}
-
-.fpfa-alert .dashicons {
-    color: #d97706;
-    flex-shrink: 0;
-    margin-top: 2px;
-}
-
-.fpfa-alert-warning p {
-    margin: 4px 0 0;
-    font-size: 13px;
-    color: #78350f;
-}
-
-.fpfa-alert-info {
-    border-color: #93c5fd;
-    background: #eff6ff;
-}
-
-.fpfa-alert-info .dashicons {
-    color: #2563eb;
-}
-
-.fpfa-alert-info p {
-    margin: 4px 0 0;
-    font-size: 13px;
-    color: #1e40af;
-}
-
-.fpfa-alert-info strong {
-    color: #1e3a8a;
-}
-
-.fpfa-email-preset-notice {
-    margin-bottom: 16px;
-}
-
-.fpfa-subsection {
-    margin-bottom: 0;
-}
-
-.fpfa-subsection-divider {
-    margin-top: 24px;
-    padding-top: 24px;
-    border-top: 1px solid #e5e7eb;
-}
-
-.fpfa-subsection-title {
-    margin: 0 0 8px;
-    font-size: 14px;
-    color: #111827;
-}
-
-.fpfa-subsection-desc {
-    margin: 0 0 14px;
-    font-size: 13px;
-    color: #6b7280;
-    line-height: 1.55;
-    max-width: 720px;
-}
-
-.fpfa-btn-row {
+/* —— Lista richieste / filtri —— */
+.fpfa-admin .fpfa-filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
     align-items: center;
-    margin-bottom: 8px;
+    margin: 0 0 1.25rem;
+    padding: 14px 16px;
+    background: var(--fpdms-bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--fpdms-border-light);
 }
 
-.fpfa-static-note {
-    margin: 0 0 8px;
-    font-size: 13px;
-    color: #4b5563;
-    line-height: 1.55;
-    max-width: 720px;
+.fpfa-filters input[type="search"],
+.fpfa-filters select {
+    border: 2px solid var(--fpdms-border);
+    border-radius: var(--radius-md);
+    padding: 6px 10px;
 }
 
-.fpfa-tags-hint-extra {
-    display: block;
+.fpfa-filters input[type="search"]:focus,
+.fpfa-filters select:focus {
+    border-color: var(--fpdms-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+/* —— Stato badge —— */
+.fpfa-status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.fpfa-status-pending {
+    background: var(--fpdms-warning-bg);
+    color: var(--fpdms-warning-text);
+}
+
+.fpfa-status-approved {
+    background: var(--fpdms-success-bg);
+    color: var(--fpdms-success-text);
+}
+
+.fpfa-status-rejected {
+    background: var(--fpdms-danger-bg);
+    color: var(--fpdms-danger-text);
+}
+
+.fpfa-attachment-default-hint {
     margin-top: 8px;
-    font-size: 12px;
-    color: #6b7280;
-}
-
-.fpfa-email-reset-row {
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid #e5e7eb;
-}
-
-.fpfa-email-reset-hint {
-    margin: 8px 0 0;
-    font-size: 12px;
-    color: #6b7280;
-    line-height: 1.5;
-    max-width: 720px;
-}
-
-.fpfa-settings-footer {
-    margin: 24px 0 32px;
-    padding: 20px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    text-align: center;
-}
-
-.fpfa-save-settings.button-hero {
-    padding-left: 24px;
-    padding-right: 24px;
-    height: auto;
-    line-height: 1.4;
-}
-
-.fpfa-save-hint {
-    margin: 10px 0 0;
-    font-size: 12px;
-    color: #6b7280;
 }

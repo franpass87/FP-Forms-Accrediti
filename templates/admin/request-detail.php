@@ -5,15 +5,20 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 ?>
-<div class="wrap fpfa-admin">
+<div class="wrap fpfa-admin fpfa-admin-page">
     <h1 class="screen-reader-text"><?php esc_html_e( 'Dettaglio Richiesta Accredito', 'fp-forms-accrediti' ); ?></h1>
     <div class="fpfa-page-header">
         <div class="fpfa-page-header-content">
-            <h2 class="fpfa-page-header-title" aria-hidden="true"><?php esc_html_e( 'Dettaglio Richiesta Accredito', 'fp-forms-accrediti' ); ?></h2>
+            <h2 class="fpfa-page-header-title" aria-hidden="true">
+                <span class="dashicons dashicons-visibility" aria-hidden="true"></span>
+                <?php esc_html_e( 'Dettaglio Richiesta Accredito', 'fp-forms-accrediti' ); ?>
+            </h2>
             <p class="fpfa-page-header-desc"><?php esc_html_e( 'Esamina e approva o rifiuta la richiesta.', 'fp-forms-accrediti' ); ?></p>
         </div>
-        <a href="<?php echo esc_url( add_query_arg( [ 'page' => 'fp-forms-accrediti-requests' ], admin_url( 'admin.php' ) ) ); ?>" class="button fpfa-page-header-btn">&larr; <?php esc_html_e( 'Torna alla lista', 'fp-forms-accrediti' ); ?></a>
-        <span class="fpfa-page-header-badge">v<?php echo esc_html( defined( 'FP_FORMS_ACCREDITI_VERSION' ) ? FP_FORMS_ACCREDITI_VERSION : '0' ); ?></span>
+        <div class="fpfa-page-header-actions">
+            <a href="<?php echo esc_url( add_query_arg( [ 'page' => 'fp-forms-accrediti-requests' ], admin_url( 'admin.php' ) ) ); ?>" class="button fpfa-btn fpfa-btn-ghost fpfa-page-header-link">&larr; <?php esc_html_e( 'Torna alla lista', 'fp-forms-accrediti' ); ?></a>
+            <span class="fpfa-page-header-badge">v<?php echo esc_html( defined( 'FP_FORMS_ACCREDITI_VERSION' ) ? FP_FORMS_ACCREDITI_VERSION : '0' ); ?></span>
+        </div>
     </div>
 
     <?php if ( isset( $_GET['decision'] ) ) : ?>
@@ -91,8 +96,8 @@ if ( ! defined( 'ABSPATH' ) ) {
             </table>
 
             <p class="submit">
-                <button type="submit" name="decision_action" value="approve" class="button button-primary"><?php esc_html_e( 'Approva e invia email', 'fp-forms-accrediti' ); ?></button>
-                <button type="submit" name="decision_action" value="reject" class="button"><?php esc_html_e( 'Rifiuta e invia email', 'fp-forms-accrediti' ); ?></button>
+                <button type="submit" name="decision_action" value="approve" class="button fpfa-btn fpfa-btn-primary"><?php esc_html_e( 'Approva e invia email', 'fp-forms-accrediti' ); ?></button>
+                <button type="submit" name="decision_action" value="reject" class="button fpfa-btn fpfa-btn-secondary"><?php esc_html_e( 'Rifiuta e invia email', 'fp-forms-accrediti' ); ?></button>
             </p>
         </form>
     <?php endif; ?>

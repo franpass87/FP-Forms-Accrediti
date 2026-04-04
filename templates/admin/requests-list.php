@@ -5,14 +5,19 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 ?>
-<div class="wrap fpfa-admin">
+<div class="wrap fpfa-admin fpfa-admin-page">
     <h1 class="screen-reader-text"><?php esc_html_e( 'Richieste Accrediti', 'fp-forms-accrediti' ); ?></h1>
     <div class="fpfa-page-header">
         <div class="fpfa-page-header-content">
-            <h2 class="fpfa-page-header-title" aria-hidden="true"><?php esc_html_e( 'Richieste Accrediti', 'fp-forms-accrediti' ); ?></h2>
+            <h2 class="fpfa-page-header-title" aria-hidden="true">
+                <span class="dashicons dashicons-list-view" aria-hidden="true"></span>
+                <?php esc_html_e( 'Richieste Accrediti', 'fp-forms-accrediti' ); ?>
+            </h2>
             <p class="fpfa-page-header-desc"><?php esc_html_e( 'Visualizza e gestisci le richieste di accredito in attesa.', 'fp-forms-accrediti' ); ?></p>
         </div>
-        <span class="fpfa-page-header-badge">v<?php echo esc_html( defined( 'FP_FORMS_ACCREDITI_VERSION' ) ? FP_FORMS_ACCREDITI_VERSION : '0' ); ?></span>
+        <div class="fpfa-page-header-actions">
+            <span class="fpfa-page-header-badge">v<?php echo esc_html( defined( 'FP_FORMS_ACCREDITI_VERSION' ) ? FP_FORMS_ACCREDITI_VERSION : '0' ); ?></span>
+        </div>
     </div>
 
     <form method="get" class="fpfa-filters">
@@ -32,10 +37,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </option>
             <?php endforeach; ?>
         </select>
-        <button class="button"><?php esc_html_e( 'Filtra', 'fp-forms-accrediti' ); ?></button>
+        <button type="submit" class="button fpfa-btn fpfa-btn-primary"><?php esc_html_e( 'Filtra', 'fp-forms-accrediti' ); ?></button>
     </form>
 
-    <table class="wp-list-table widefat striped">
+    <table class="wp-list-table widefat striped fpfa-table fpfa-list-table">
         <thead>
             <tr>
                 <th><?php esc_html_e( 'ID', 'fp-forms-accrediti' ); ?></th>
@@ -62,7 +67,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <td><span class="fpfa-status fpfa-status-<?php echo esc_attr( $item->status ); ?>"><?php echo esc_html( ucfirst( (string) $item->status ) ); ?></span></td>
                         <td><?php echo esc_html( (string) $item->created_at ); ?></td>
                         <td>
-                            <a class="button button-small" href="<?php echo esc_url( add_query_arg( [ 'page' => 'fp-forms-accrediti-requests', 'request_id' => (int) $item->id ], admin_url( 'admin.php' ) ) ); ?>">
+                            <a class="button button-small fpfa-btn fpfa-btn-secondary fpfa-btn-sm" href="<?php echo esc_url( add_query_arg( [ 'page' => 'fp-forms-accrediti-requests', 'request_id' => (int) $item->id ], admin_url( 'admin.php' ) ) ); ?>">
                                 <?php esc_html_e( 'Apri', 'fp-forms-accrediti' ); ?>
                             </a>
                         </td>
