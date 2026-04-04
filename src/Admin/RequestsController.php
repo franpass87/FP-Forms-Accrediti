@@ -75,8 +75,9 @@ final class RequestsController {
             wp_die( esc_html__( 'Permessi insufficienti.', 'fp-forms-accrediti' ) );
         }
 
-        $settings = Settings::get();
-        $forms = \FPForms\Plugin::instance()->forms->get_forms();
+        $settings            = Settings::get();
+        $fpfa_email_defaults = Settings::default_email_templates();
+        $forms               = \FPForms\Plugin::instance()->forms->get_forms();
         include FP_FORMS_ACCREDITI_PLUGIN_DIR . 'templates/admin/settings.php';
     }
 

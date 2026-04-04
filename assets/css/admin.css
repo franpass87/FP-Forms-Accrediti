@@ -393,6 +393,29 @@ body.fpfa-admin-shell #wpbody-content > .wrap.fpfa-settings-page {
     color: #78350f;
 }
 
+.fpfa-alert-info {
+    border-color: #93c5fd;
+    background: #eff6ff;
+}
+
+.fpfa-alert-info .dashicons {
+    color: #2563eb;
+}
+
+.fpfa-alert-info p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #1e40af;
+}
+
+.fpfa-alert-info strong {
+    color: #1e3a8a;
+}
+
+.fpfa-email-preset-notice {
+    margin-bottom: 16px;
+}
+
 .fpfa-subsection {
     margin-bottom: 0;
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace FP\FormsAccrediti;
 
 use FP\FormsAccrediti\Database\Schema;
+use FP\FormsAccrediti\Settings\Settings;
 
 /**
  * Gestisce attivazione add-on.
@@ -48,12 +49,7 @@ final class Activator {
                 'enabled' => true,
                 'form_configs' => [],
                 'allowed_mime_types' => [ 'application/pdf' ],
-                'email_templates' => [
-                    'approval_subject' => __( 'La tua richiesta accredito è stata approvata - {site_name}', 'fp-forms-accrediti' ),
-                    'approval_body' => __( "Gentile candidato,\n\nla tua richiesta di accredito per {form_title} è stata approvata.\n\nIn allegato trovi il documento ufficiale.\n\n{decision_message}\n\nCordiali saluti,\n{site_name}", 'fp-forms-accrediti' ),
-                    'rejection_subject' => __( 'Esito richiesta accredito - {site_name}', 'fp-forms-accrediti' ),
-                    'rejection_body' => __( "Gentile candidato,\n\npurtroppo la tua richiesta di accredito per {form_title} non è stata approvata.\n\n{decision_message}\n\nPer ulteriori informazioni puoi contattarci.\n\nCordiali saluti,\n{site_name}", 'fp-forms-accrediti' ),
-                ],
+                'email_templates' => Settings::default_email_templates(),
             ]
         );
     }

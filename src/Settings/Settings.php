@@ -9,6 +9,57 @@ namespace FP\FormsAccrediti\Settings;
 final class Settings {
 
     /**
+     * Template email predefiniti (oggetto e corpo) inviati al candidato.
+     *
+     * @return array{
+     *     approval_subject: string,
+     *     approval_body: string,
+     *     rejection_subject: string,
+     *     rejection_body: string
+     * }
+     */
+    public static function default_email_templates(): array {
+        return [
+            'approval_subject' => __( 'Accredito approvato — {site_name}', 'fp-forms-accrediti' ),
+            'approval_body'    => __(
+                "Gentile candidato,\n\n" .
+                "siamo lieti di comunicarti che la tua richiesta di accredito per «{form_title}» è stata approvata.\n\n" .
+                "In allegato trovi il documento ufficiale. Ti invitiamo a conservarlo per eventuali controlli d’accesso.\n\n" .
+                "Messaggio dello staff (se presente):\n{decision_message}\n\n" .
+                "Per informazioni puoi visitare {site_url} o rispondere a questa e-mail.\n\n" .
+                "Cordiali saluti,\nIl team di {site_name}",
+                'fp-forms-accrediti'
+            ),
+            'rejection_subject' => __( 'Aggiornamento sulla tua richiesta di accredito — {site_name}', 'fp-forms-accrediti' ),
+            'rejection_body'     => __(
+                "Gentile candidato,\n\n" .
+                "in riferimento alla tua richiesta di accredito per «{form_title}», siamo spiacenti di comunicarti che in questa fase non è stata accolta.\n\n" .
+                "Motivazione o note dello staff (se presenti):\n{decision_message}\n\n" .
+                "Se desideri chiarimenti o ritieni che si tratti di un errore, puoi contattarci rispondendo a questa e-mail o tramite i recapiti su {site_url}.\n\n" .
+                "Cordiali saluti,\nIl team di {site_name}",
+                'fp-forms-accrediti'
+            ),
+        ];
+    }
+
+    /**
+     * Unisce i template salvati con i predefiniti: stringhe vuote diventano il testo preimpostato.
+     *
+     * @param array<string, string> $stored
+     * @return array<string, string>
+     */
+    private static function normalize_email_templates( array $stored ): array {
+        $defaults = self::default_email_templates();
+        $merged   = wp_parse_args( $stored, $defaults );
+        foreach ( $defaults as $key => $default_value ) {
+            if ( trim( (string) ( $merged[ $key ] ?? '' ) ) === '' ) {
+                $merged[ $key ] = $default_value;
+            }
+        }
+        return $merged;
+    }
+
+    /**
      * Restituisce impostazioni sanitizzate.
      */
     public static function get(): array {
@@ -18,12 +69,7 @@ final class Settings {
             'allowed_mime_types' => [ 'application/pdf' ],
             'default_approval_attachment_id' => 0,
             'operator_capability' => 'manage_fp_forms_accrediti',
-            'email_templates' => [
-                'approval_subject' => __( 'La tua richiesta accredito è stata approvata - {site_name}', 'fp-forms-accrediti' ),
-                'approval_body' => __( "Gentile candidato,\n\nla tua richiesta di accredito per {form_title} è stata approvata.\n\nIn allegato trovi il documento ufficiale.\n\n{decision_message}\n\nCordiali saluti,\n{site_name}", 'fp-forms-accrediti' ),
-                'rejection_subject' => __( 'Esito richiesta accredito - {site_name}', 'fp-forms-accrediti' ),
-                'rejection_body' => __( "Gentile candidato,\n\npurtroppo la tua richiesta di accredito per {form_title} non è stata approvata.\n\n{decision_message}\n\nPer ulteriori informazioni puoi contattarci.\n\nCordiali saluti,\n{site_name}", 'fp-forms-accrediti' ),
-            ],
+            'email_templates' => self::default_email_templates(),
         ];
 
         $settings = get_option( 'fp_forms_accrediti_settings', [] );
@@ -45,9 +91,9 @@ final class Settings {
         }
 
         if ( ! is_array( $settings['email_templates'] ) ) {
-            $settings['email_templates'] = $defaults['email_templates'];
+            $settings['email_templates'] = self::default_email_templates();
         } else {
-            $settings['email_templates'] = wp_parse_args( $settings['email_templates'], $defaults['email_templates'] );
+            $settings['email_templates'] = self::normalize_email_templates( $settings['email_templates'] );
         }
 
         return $settings;

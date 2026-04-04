@@ -169,10 +169,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<span class="dashicons dashicons-email-alt" aria-hidden="true"></span>
 				<div class="fpfa-card-header-text">
 					<h2><?php esc_html_e( 'Testi delle email al candidato', 'fp-forms-accrediti' ); ?></h2>
-					<p class="fpfa-card-lead"><?php esc_html_e( 'Oggetto e corpo per approvazione e rifiuto. Il testo è convertito in HTML; con FP Mail SMTP attivo si applica anche il layout grafico unificato.', 'fp-forms-accrediti' ); ?></p>
+					<p class="fpfa-card-lead"><?php esc_html_e( 'Oggetto e corpo per approvazione e rifiuto: è già presente un testo predefinito chiaro e professionale. Puoi personalizzarlo liberamente; se svuoti un campo e salvi, al caricamento successivo viene ripristinato il predefinito. Il testo è convertito in HTML e, con FP Mail SMTP attivo, riceve anche il layout grafico unificato.', 'fp-forms-accrediti' ); ?></p>
 				</div>
 			</div>
 			<div class="fpfa-card-body">
+				<div class="fpfa-alert fpfa-alert-info fpfa-email-preset-notice" role="status">
+					<span class="dashicons dashicons-yes-alt" aria-hidden="true"></span>
+					<div>
+						<strong><?php esc_html_e( 'Testi preimpostati sempre disponibili', 'fp-forms-accrediti' ); ?></strong>
+						<p><?php esc_html_e( 'Anche senza modifiche qui, le e-mail al candidato usano già messaggi completi (saluto, motivazione, riferimento al form e ai tag). Personalizza solo se vuoi un tono o dettagli diversi.', 'fp-forms-accrediti' ); ?></p>
+					</div>
+				</div>
 				<div class="fpfa-tags-hint">
 					<strong><?php esc_html_e( 'Tag che puoi incollare nel testo:', 'fp-forms-accrediti' ); ?></strong>
 					<code>{applicant_email}</code> <code>{form_title}</code> <code>{site_name}</code> <code>{site_url}</code> <code>{date}</code> <code>{time}</code> <code>{decision_message}</code>
@@ -183,11 +190,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<h3 class="fpfa-email-section-title"><?php esc_html_e( 'Email di approvazione', 'fp-forms-accrediti' ); ?></h3>
 					<div class="fpfa-field">
 						<label for="approval_subject"><?php esc_html_e( 'Oggetto', 'fp-forms-accrediti' ); ?></label>
-						<input type="text" id="approval_subject" class="large-text" name="settings[email_templates][approval_subject]" value="<?php echo esc_attr( (string) ( $settings['email_templates']['approval_subject'] ?? '' ) ); ?>" placeholder="<?php esc_attr_e( 'La tua richiesta accredito è stata approvata - {site_name}', 'fp-forms-accrediti' ); ?>">
+						<input type="text" id="approval_subject" class="large-text" name="settings[email_templates][approval_subject]" value="<?php echo esc_attr( (string) ( $settings['email_templates']['approval_subject'] ?? '' ) ); ?>" placeholder="<?php echo esc_attr( (string) ( $fpfa_email_defaults['approval_subject'] ?? '' ) ); ?>">
 					</div>
 					<div class="fpfa-field">
 						<label for="approval_body"><?php esc_html_e( 'Corpo del messaggio', 'fp-forms-accrediti' ); ?></label>
-						<textarea id="approval_body" class="large-text" rows="6" name="settings[email_templates][approval_body]" placeholder="<?php esc_attr_e( "Gentile candidato,\n\nla tua richiesta di accredito per {form_title} è stata approvata.\n\nIn allegato trovi il documento ufficiale.\n\n{decision_message}\n\nCordiali saluti,\n{site_name}", 'fp-forms-accrediti' ); ?>"><?php echo esc_textarea( (string) ( $settings['email_templates']['approval_body'] ?? '' ) ); ?></textarea>
+						<textarea id="approval_body" class="large-text" rows="10" name="settings[email_templates][approval_body]" placeholder="<?php echo esc_attr( (string) ( $fpfa_email_defaults['approval_body'] ?? '' ) ); ?>"><?php echo esc_textarea( (string) ( $settings['email_templates']['approval_body'] ?? '' ) ); ?></textarea>
 						<span class="fpfa-hint"><?php esc_html_e( 'Se nel testo non usi {decision_message}, il messaggio dell’operatore viene comunque aggiunto in coda al corpo.', 'fp-forms-accrediti' ); ?></span>
 					</div>
 				</div>
@@ -196,11 +203,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<h3 class="fpfa-email-section-title"><?php esc_html_e( 'Email di rifiuto', 'fp-forms-accrediti' ); ?></h3>
 					<div class="fpfa-field">
 						<label for="rejection_subject"><?php esc_html_e( 'Oggetto', 'fp-forms-accrediti' ); ?></label>
-						<input type="text" id="rejection_subject" class="large-text" name="settings[email_templates][rejection_subject]" value="<?php echo esc_attr( (string) ( $settings['email_templates']['rejection_subject'] ?? '' ) ); ?>" placeholder="<?php esc_attr_e( 'Esito richiesta accredito - {site_name}', 'fp-forms-accrediti' ); ?>">
+						<input type="text" id="rejection_subject" class="large-text" name="settings[email_templates][rejection_subject]" value="<?php echo esc_attr( (string) ( $settings['email_templates']['rejection_subject'] ?? '' ) ); ?>" placeholder="<?php echo esc_attr( (string) ( $fpfa_email_defaults['rejection_subject'] ?? '' ) ); ?>">
 					</div>
 					<div class="fpfa-field">
 						<label for="rejection_body"><?php esc_html_e( 'Corpo del messaggio', 'fp-forms-accrediti' ); ?></label>
-						<textarea id="rejection_body" class="large-text" rows="6" name="settings[email_templates][rejection_body]" placeholder="<?php esc_attr_e( "Gentile candidato,\n\npurtroppo la tua richiesta di accredito per {form_title} non è stata approvata.\n\n{decision_message}\n\nPer ulteriori informazioni puoi contattarci.\n\nCordiali saluti,\n{site_name}", 'fp-forms-accrediti' ); ?>"><?php echo esc_textarea( (string) ( $settings['email_templates']['rejection_body'] ?? '' ) ); ?></textarea>
+						<textarea id="rejection_body" class="large-text" rows="10" name="settings[email_templates][rejection_body]" placeholder="<?php echo esc_attr( (string) ( $fpfa_email_defaults['rejection_body'] ?? '' ) ); ?>"><?php echo esc_textarea( (string) ( $settings['email_templates']['rejection_body'] ?? '' ) ); ?></textarea>
 					</div>
 				</div>
 			</div>

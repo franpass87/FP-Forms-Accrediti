@@ -1,5 +1,12 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.0.7] - 2026-04-04
+### Changed
+- Template email al candidato: testi predefiniti più chiari e professionali (approvazione/rifiuto); fonte unica `Settings::default_email_templates()` anche in attivazione plugin.
+- Se in database oggetto o corpo sono vuoti, vengono sempre usati i testi preimpostati (`normalize_email_templates` in lettura impostazioni).
+### Added
+- In Accrediti Settings: box informativo sui testi preimpostati e lead aggiornata; textarea email più alte per corpi lunghi.
+
 ## [1.0.6] - 2026-04-04
 ### Changed
 - Pagina **Accrediti Settings**: struttura a card con testi guida, legenda tabella form, hint sui campi; stili admin dedicati (`fpfa-*`); classe body `fpfa-admin-shell` per spaziatura coerente con le notice WordPress.
