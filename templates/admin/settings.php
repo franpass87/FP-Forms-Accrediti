@@ -102,7 +102,7 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 					<div class="fpfa-table-legend" role="note">
 						<ul>
 							<li><strong><?php esc_html_e( 'Abilitato:', 'fp-forms-accrediti' ); ?></strong> <?php esc_html_e( 'se spuntato, ogni nuovo invio da quel form crea una riga in Accrediti (stato In attesa).', 'fp-forms-accrediti' ); ?></li>
-							<li><strong><?php esc_html_e( 'Campo email:', 'fp-forms-accrediti' ); ?></strong> <?php esc_html_e( 'inserisci lo slug del campo email definito nel costruttore del form (es. email o field_xxx). Se lasci vuoto, il sistema prova a trovare da solo un campo il cui nome contiene «email».', 'fp-forms-accrediti' ); ?></li>
+							<li><strong><?php esc_html_e( 'Campo email:', 'fp-forms-accrediti' ); ?></strong> <?php esc_html_e( 'inserisci lo slug del campo email definito nel costruttore del form (es. email o field_xxx). Se lasci vuoto, il sistema usa una chiave dati che contiene «email» oppure il primo campo di tipo Email del form.', 'fp-forms-accrediti' ); ?></li>
 						</ul>
 					</div>
 					<div class="fpfa-table-scroll">

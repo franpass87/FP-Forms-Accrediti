@@ -4,7 +4,7 @@ Contributors: franpass87
 Tags: forms, accreditation, workflow, approvals, email
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 1.0.10
+Stable tag: 1.0.11
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -31,6 +31,9 @@ Include:
 4. Configura in `FP Forms -> Accrediti Settings`.
 
 == Changelog ==
+
+= 1.0.11 = (2026-04-13)
+* Fix: risoluzione email anche tramite primo campo tipo Email del form se slug opzionale assente/errato; testo guida in Accrediti Settings.
 
 = 1.0.10 = (2026-04-04)
 * Changed: event_id negli eventi fp_tracking_event per deduplica GA4; grafica admin allineata al design system FP.

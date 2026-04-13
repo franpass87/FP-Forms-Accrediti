@@ -1,5 +1,9 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.0.11] - 2026-04-13
+### Fixed
+- Risoluzione email candidato: se lo slug in impostazioni è vuoto/errato e nessuna chiave dati contiene «email», viene usato il **primo campo di tipo Email** del form FP Forms (così la richiesta accredito viene creata lo stesso). Messaggio in Accrediti Settings aggiornato.
+
 ## [1.0.10] - 2026-04-04
 ### Changed
 - Eventi `fp_tracking_event` (creato/approvato/rifiutato): aggiunto `event_id` stabile per deduplica GA4 lato server.

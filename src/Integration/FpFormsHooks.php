@@ -37,7 +37,7 @@ final class FpFormsHooks {
             return;
         }
 
-        $email = $this->resolve_applicant_email( $form_config, $data );
+        $email = $this->resolve_applicant_email( $form_id, $form_config, $data );
         if ( ! is_email( $email ) ) {
             return;
         }
@@ -61,12 +61,19 @@ final class FpFormsHooks {
     }
 
     /**
-     * Risolve email candidato da mapping o fallback.
+     * Risolve email candidato: slug in impostazioni, chiave dati che contiene «email», primo campo tipo email nel form.
+     *
+     * @param int                  $form_id     ID form FP Forms.
+     * @param array<string, mixed> $form_config Config da Settings::get_form_config (enabled già verificato).
+     * @param array<string, mixed> $data        Dati submission sanitizzati.
      */
-    private function resolve_applicant_email( array $form_config, array $data ): string {
+    private function resolve_applicant_email( int $form_id, array $form_config, array $data ): string {
         $email_field = $form_config['email_field'] ?? '';
-        if ( $email_field !== '' && isset( $data[ $email_field ] ) && is_email( $data[ $email_field ] ) ) {
-            return sanitize_email( (string) $data[ $email_field ] );
+        if ( $email_field !== '' ) {
+            $raw = $data[ $email_field ] ?? null;
+            if ( is_scalar( $raw ) && is_email( (string) $raw ) ) {
+                return sanitize_email( (string) $raw );
+            }
         }
 
         foreach ( $data as $key => $value ) {
@@ -77,6 +84,51 @@ final class FpFormsHooks {
             $string_value = (string) $value;
             if ( stripos( (string) $key, 'email' ) !== false && is_email( $string_value ) ) {
                 return sanitize_email( $string_value );
+            }
+        }
+
+        $from_schema = $this->resolve_email_from_form_schema( $form_id, $data );
+        if ( $from_schema !== '' ) {
+            return $from_schema;
+        }
+
+        return '';
+    }
+
+    /**
+     * Primo campo di tipo «email» nel builder FP Forms con valore valido in $data.
+     *
+     * @param array<string, mixed> $data Dati submission.
+     */
+    private function resolve_email_from_form_schema( int $form_id, array $data ): string {
+        if ( ! class_exists( '\FPForms\Plugin' ) ) {
+            return '';
+        }
+
+        $plugin = \FPForms\Plugin::instance();
+        if ( ! $plugin->forms || ! method_exists( $plugin->forms, 'get_fields' ) ) {
+            return '';
+        }
+
+        $fields = $plugin->forms->get_fields( $form_id );
+        if ( ! is_array( $fields ) ) {
+            return '';
+        }
+
+        foreach ( $fields as $field ) {
+            if ( ! is_array( $field ) ) {
+                continue;
+            }
+            if ( ( $field['type'] ?? '' ) !== 'email' ) {
+                continue;
+            }
+            $name = isset( $field['name'] ) ? (string) $field['name'] : '';
+            if ( $name === '' ) {
+                continue;
+            }
+            $raw = $data[ $name ] ?? null;
+            if ( is_scalar( $raw ) && is_email( (string) $raw ) ) {
+                return sanitize_email( (string) $raw );
             }
         }
 
