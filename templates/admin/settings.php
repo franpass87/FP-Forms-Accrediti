@@ -28,8 +28,14 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 	<?php if ( isset( $_GET['email_defaults_restored'] ) ) : ?>
 		<div class="notice notice-success"><p><?php esc_html_e( 'Testi email ripristinati ai predefiniti del plugin.', 'fp-forms-accrediti' ); ?></p></div>
 	<?php endif; ?>
-	<?php if ( isset( $_GET['backfill_done'] ) ) : ?>
-		<div class="notice notice-success is-dismissible">
+	<?php if ( isset( $_GET['backfill_done'] ) ) :
+		$fpfa_bf_errors  = absint( $_GET['backfill_errors'] ?? 0 );
+		$fpfa_bf_notice  = ( $fpfa_bf_errors > 0 && absint( $_GET['backfill_created'] ?? 0 ) === 0 )
+			? 'notice-error'
+			: 'notice-success';
+		$fpfa_bf_samples = get_transient( 'fp_forms_accrediti_backfill_samples' );
+		?>
+		<div class="notice <?php echo esc_attr( $fpfa_bf_notice ); ?> is-dismissible">
 			<p>
 				<strong><?php esc_html_e( 'Backfill richieste accredito completato.', 'fp-forms-accrediti' ); ?></strong>
 			</p>
@@ -43,10 +49,23 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 					absint( $_GET['backfill_created'] ?? 0 ),
 					absint( $_GET['backfill_skipped'] ?? 0 ),
 					absint( $_GET['backfill_no_email'] ?? 0 ),
-					absint( $_GET['backfill_errors'] ?? 0 )
+					$fpfa_bf_errors
 				) );
 				?>
 			</p>
+			<?php if ( $fpfa_bf_errors > 0 && is_array( $fpfa_bf_samples ) && $fpfa_bf_samples !== [] ) : ?>
+				<p><strong><?php esc_html_e( 'Diagnostica: primi campioni di submission non leggibili', 'fp-forms-accrediti' ); ?></strong></p>
+				<ul style="margin-left:1.5em;">
+					<?php foreach ( $fpfa_bf_samples as $fpfa_sample ) : ?>
+						<li>
+							<code><?php echo esc_html( sprintf( 'submission #%d (type=%s): %s', (int) ( $fpfa_sample['id'] ?? 0 ), (string) ( $fpfa_sample['type'] ?? '' ), (string) ( $fpfa_sample['sample'] ?? '' ) ) ); ?></code>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+				<p style="margin-top:0.5em;">
+					<em><?php esc_html_e( 'Invia questi campioni al manutentore del plugin per adeguare il parser: indicano il formato esatto con cui FP Forms ha memorizzato i dati su questo sito.', 'fp-forms-accrediti' ); ?></em>
+				</p>
+			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 	<?php if ( isset( $_GET['backfill_error'] ) ) :

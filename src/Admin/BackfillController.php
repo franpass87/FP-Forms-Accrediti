@@ -23,6 +23,14 @@ final class BackfillController {
 
     private ApplicantEmailResolver $email_resolver;
 
+    /**
+     * Campioni diagnostici raccolti durante il backfill (max 3) per permettere
+     * il rendering di un dettaglio in UI quando l'estrazione dati fallisce.
+     *
+     * @var array<int, array{id:int,type:string,sample:string}>
+     */
+    private array $diagnostic_samples = [];
+
     public function __construct() {
         $this->repository     = new RequestRepository();
         $this->email_resolver = new ApplicantEmailResolver();
@@ -54,7 +62,14 @@ final class BackfillController {
 
         $requested_form_id = isset( $_POST['form_id'] ) ? absint( (string) $_POST['form_id'] ) : 0;
 
+        delete_transient( 'fp_forms_accrediti_backfill_samples' );
+        $this->diagnostic_samples = [];
+
         $result = $this->run_backfill( $requested_form_id );
+
+        if ( $this->diagnostic_samples !== [] ) {
+            set_transient( 'fp_forms_accrediti_backfill_samples', $this->diagnostic_samples, 10 * MINUTE_IN_SECONDS );
+        }
 
         wp_safe_redirect(
             add_query_arg(
@@ -168,9 +183,10 @@ final class BackfillController {
                     continue;
                 }
 
-                $data = $this->extract_submission_data( $submission );
+                $data = $this->extract_submission_data( $submission, $plugin );
                 if ( $data === [] ) {
                     $result['errors']++;
+                    $this->capture_diagnostic_sample( $submission_id, $submission );
                     continue;
                 }
 
@@ -203,13 +219,19 @@ final class BackfillController {
     }
 
     /**
-     * Estrae e decodifica i dati submission. FP Forms ritorna `data` come JSON string
-     * quando si usa get_submissions() (batch) mentre get_submission() lo decodifica.
+     * Estrae e decodifica i dati submission.
+     *
+     * FP Forms normalmente ritorna `data` come JSON string (get_submissions batch).
+     * In installazioni reali possono comparire varianti: JSON già array, serializzazione
+     * PHP legacy, stringa con slash escapati da magic quotes o da Helper::safe_json_encode
+     * su input già serializzati. Fallback a cascata + ultima chance: chiamare
+     * get_submission($id) che in FP Forms 1.6+ prova a decodificare lato core.
      *
      * @param object $submission Riga submission FP Forms.
+     * @param object $plugin     Istanza FPForms\Plugin per fallback get_submission().
      * @return array<string, mixed>
      */
-    private function extract_submission_data( $submission ): array {
+    private function extract_submission_data( $submission, $plugin ): array {
         if ( ! is_object( $submission ) || ! isset( $submission->data ) ) {
             return [];
         }
@@ -221,15 +243,107 @@ final class BackfillController {
         }
 
         if ( ! is_string( $raw ) || $raw === '' ) {
-            return [];
+            return $this->fallback_via_get_submission( $submission, $plugin );
         }
 
         $decoded = json_decode( $raw, true );
-        if ( json_last_error() !== JSON_ERROR_NONE || ! is_array( $decoded ) ) {
+        if ( is_array( $decoded ) ) {
+            return $decoded;
+        }
+
+        $unslashed = wp_unslash( $raw );
+        if ( is_string( $unslashed ) && $unslashed !== $raw ) {
+            $decoded = json_decode( $unslashed, true );
+            if ( is_array( $decoded ) ) {
+                return $decoded;
+            }
+        }
+
+        if ( function_exists( 'maybe_unserialize' ) ) {
+            $maybe = @maybe_unserialize( $raw );
+            if ( is_array( $maybe ) ) {
+                return $maybe;
+            }
+        }
+
+        return $this->fallback_via_get_submission( $submission, $plugin );
+    }
+
+    /**
+     * Ultimo fallback: chiedi a FP Forms la submission già decodificata.
+     *
+     * @param object $submission Riga grezza (per leggere ->id).
+     * @param object $plugin     Istanza FPForms\Plugin.
+     * @return array<string, mixed>
+     */
+    private function fallback_via_get_submission( $submission, $plugin ): array {
+        if ( ! isset( $submission->id ) ) {
             return [];
         }
 
-        return $decoded;
+        $submission_id = absint( (string) $submission->id );
+        if ( $submission_id <= 0 ) {
+            return [];
+        }
+
+        if ( ! isset( $plugin->submissions ) || ! is_object( $plugin->submissions ) || ! method_exists( $plugin->submissions, 'get_submission' ) ) {
+            return [];
+        }
+
+        try {
+            $fetched = $plugin->submissions->get_submission( $submission_id );
+        } catch ( \Throwable $e ) {
+            return [];
+        }
+
+        if ( ! is_object( $fetched ) || ! isset( $fetched->data ) ) {
+            return [];
+        }
+
+        if ( is_array( $fetched->data ) ) {
+            return $fetched->data;
+        }
+
+        if ( is_string( $fetched->data ) && $fetched->data !== '' ) {
+            $decoded = json_decode( $fetched->data, true );
+            if ( is_array( $decoded ) ) {
+                return $decoded;
+            }
+        }
+
+        return [];
+    }
+
+    /**
+     * Memorizza fino a 3 campioni di `data` quando l'estrazione fallisce,
+     * per permettere la diagnosi lato UI in assenza di log.
+     *
+     * @param int    $submission_id ID submission.
+     * @param object $submission    Riga submission FP Forms.
+     */
+    private function capture_diagnostic_sample( int $submission_id, $submission ): void {
+        if ( count( $this->diagnostic_samples ) >= 3 ) {
+            return;
+        }
+
+        $raw  = $submission->data ?? null;
+        $type = gettype( $raw );
+
+        if ( is_string( $raw ) ) {
+            $sample = substr( $raw, 0, 300 );
+        } elseif ( is_array( $raw ) || is_object( $raw ) ) {
+            $sample = substr( (string) wp_json_encode( $raw ), 0, 300 );
+        } elseif ( $raw === null ) {
+            $sample = '(null)';
+        } else {
+            $sample = (string) $raw;
+        }
+
+        $this->diagnostic_samples[] = [
+            'id'     => $submission_id,
+            'type'   => $type,
+            'sample' => $sample,
+        ];
     }
 
     /**

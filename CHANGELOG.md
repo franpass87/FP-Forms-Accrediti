@@ -1,5 +1,13 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.1.1] - 2026-04-17
+### Fixed
+- Backfill richieste accredito: parser dati submission reso tollerante a formati non canonici (JSON gia array, stringhe con slash escapati da magic quotes, serializzazione PHP legacy) con fallback finale tramite `Submissions\Manager::get_submission()`. Risolve casi in cui il backfill riportava `Errori: N` senza creare richieste perche `json_decode` di `submission->data` falliva.
+
+### Added
+- UI backfill: quando l'estrazione dati fallisce vengono raccolti e mostrati in pagina i primi 3 campioni di `data` (tipo + primi 300 caratteri, transient 10 min) per permettere la diagnosi lato amministratore senza dover leggere i log del server.
+- La notice di riepilogo usa `notice-error` quando ci sono solo errori (0 create, >0 errori) per evidenziare la necessita di intervento.
+
 ## [1.1.0] - 2026-04-17
 ### Added
 - Tool di manutenzione **Ricostruisci richieste accredito** nella pagina **Accrediti Settings**: elabora le submission FP Forms pregresse dei form abilitati e crea le richieste accredito mancanti in stato `pending`. Handler `admin_post_fp_forms_accrediti_backfill_requests` protetto da nonce + capability `manage_fp_forms`. Operazione idempotente (dedup su `submission_id`), nessuna email viene inviata al candidato, utile per recuperare submission arrivate prima di attivare o aggiornare il modulo.

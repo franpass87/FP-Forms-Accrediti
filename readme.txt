@@ -4,7 +4,7 @@ Contributors: franpass87
 Tags: forms, accreditation, workflow, approvals, email
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -32,6 +32,9 @@ Include:
 
 == Changelog ==
 
+= 1.1.1 = (2026-04-17)
+* Fixed: parser dati submission reso tollerante a JSON gia array, slash escapati o serializzazione PHP legacy, con fallback finale su `Submissions\Manager::get_submission()`.
+* Added: UI backfill mostra i primi 3 campioni di `data` (tipo + anteprima) quando l'estrazione fallisce, per diagnosi lato amministratore senza leggere i log del server.
 = 1.1.0 = (2026-04-17)
 * Added: tool di manutenzione **Ricostruisci richieste accredito** in Accrediti Settings. Elabora le submission FP Forms pregresse dei form abilitati e crea le richieste accredito mancanti in stato «pending». Idempotente: le richieste già esistenti vengono saltate, nessuna email viene inviata al candidato.
 * Changed: logica di risoluzione email candidato estratta in `Service\ApplicantEmailResolver` (riuso tra listener live e backfill).

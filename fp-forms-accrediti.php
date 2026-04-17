@@ -3,7 +3,7 @@
  * Plugin Name: FP Forms Accrediti
  * Plugin URI: https://francescopasseri.com/
  * Description: Add-on per FP Forms: workflow richieste accredito con approvazione/rifiuto e invio email con allegato.
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: Francesco Passeri
  * Author URI: https://francescopasseri.com
  * Text Domain: fp-forms-accrediti
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'FP_FORMS_ACCREDITI_VERSION', '1.1.0' );
+define( 'FP_FORMS_ACCREDITI_VERSION', '1.1.1' );
 define( 'FP_FORMS_ACCREDITI_PLUGIN_FILE', __FILE__ );
 define( 'FP_FORMS_ACCREDITI_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'FP_FORMS_ACCREDITI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
