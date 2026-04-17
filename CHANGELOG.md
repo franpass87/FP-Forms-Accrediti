@@ -1,5 +1,14 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.0.12] - 2026-04-17
+### Fixed
+- Richieste accredito non create in produzione quando FP Forms emette `fp_forms_after_save_submission` con argomenti non strettamente tipizzati (`submission_id` come stringa da `wpdb->insert_id` con strict_types). Aggiunto ascolto multi-hook (`fp_forms_after_save_submission`, `fp_forms_after_submit`, `fp_forms_submission_saved`) e normalizzazione del payload con cast robusto via `absint((string) ...)`.
+- Compatibilit con bootstrap anomali: se la classe `\FPForms\Plugin` non  visibile durante `plugins_loaded`, l'integrazione viene ri-tentata su `init` (priority 20). Metodo `boot_integration` idempotente.
+- `create_pending_request` protetto da `try/catch` per evitare che un errore DB interrompa la submission utente; errore loggato solo con `WP_DEBUG`.
+
+### Changed
+- `FpFormsHooks::on_submission_saved` ora accetta parametri `mixed` (niente type-hint `int`) per non far fallire silenziosamente il callback con `strict_types=1` quando l'hook upstream invia tipi misti.
+
 ## [1.0.11] - 2026-04-13
 ### Fixed
 - Risoluzione email candidato: se lo slug in impostazioni è vuoto/errato e nessuna chiave dati contiene «email», viene usato il **primo campo di tipo Email** del form FP Forms (così la richiesta accredito viene creata lo stesso). Messaggio in Accrediti Settings aggiornato.
