@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FP\FormsAccrediti\Admin;
 
+use FP\FormsAccrediti\Database\Schema;
 use FP\FormsAccrediti\Domain\RequestRepository;
 use FP\FormsAccrediti\Security\Permissions;
 use FP\FormsAccrediti\Service\ApplicantEmailResolver;
@@ -63,7 +64,20 @@ final class BackfillController {
         $requested_form_id = isset( $_POST['form_id'] ) ? absint( (string) $_POST['form_id'] ) : 0;
 
         delete_transient( 'fp_forms_accrediti_backfill_samples' );
+        delete_transient( 'fp_forms_accrediti_backfill_schema' );
         $this->diagnostic_samples = [];
+
+        $schema_check = $this->inspect_schema();
+        if ( isset( $schema_check['requests_exists'] ) && $schema_check['requests_exists'] === false ) {
+            if ( method_exists( Schema::class, 'create_tables' ) ) {
+                Schema::create_tables();
+                $schema_check = $this->inspect_schema();
+                $schema_check['auto_repair_attempted'] = true;
+            }
+        }
+        if ( $schema_check !== [] ) {
+            set_transient( 'fp_forms_accrediti_backfill_schema', $schema_check, 10 * MINUTE_IN_SECONDS );
+        }
 
         $result = $this->run_backfill( $requested_form_id );
 
@@ -200,9 +214,7 @@ final class BackfillController {
                     $request_id = $this->repository->create_pending_request( $submission_id, $form_id, $email );
                 } catch ( \Throwable $e ) {
                     $result['errors']++;
-                    if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                        error_log( 'FP Forms Accrediti backfill: create_pending_request failed - ' . $e->getMessage() );
-                    }
+                    $this->capture_db_error_sample( $submission_id, $email, 'exception: ' . $e->getMessage() );
                     continue;
                 }
 
@@ -210,6 +222,9 @@ final class BackfillController {
                     $result['created']++;
                 } else {
                     $result['errors']++;
+                    global $wpdb;
+                    $last_error = is_object( $wpdb ) && isset( $wpdb->last_error ) ? (string) $wpdb->last_error : '';
+                    $this->capture_db_error_sample( $submission_id, $email, $last_error !== '' ? 'db_error: ' . $last_error : 'insert returned false (no error message)' );
                 }
             }
 
@@ -312,6 +327,68 @@ final class BackfillController {
         }
 
         return [];
+    }
+
+    /**
+     * Verifica lo stato dello schema DB del plugin accrediti.
+     *
+     * Ritorna info diagnostiche utili (esistenza tabelle, colonne attese, indice unique)
+     * per capire se i conteggi errori sono dovuti a schema mancante o incompleto.
+     *
+     * @return array<string, mixed>
+     */
+    private function inspect_schema(): array {
+        global $wpdb;
+
+        if ( ! is_object( $wpdb ) ) {
+            return [];
+        }
+
+        $requests_table = Schema::requests_table();
+        $audit_table    = Schema::audit_table();
+
+        $requests_exists = (bool) $wpdb->get_var(
+            $wpdb->prepare( 'SHOW TABLES LIKE %s', $requests_table )
+        );
+        $audit_exists = (bool) $wpdb->get_var(
+            $wpdb->prepare( 'SHOW TABLES LIKE %s', $audit_table )
+        );
+
+        $info = [
+            'requests_table'  => $requests_table,
+            'requests_exists' => $requests_exists,
+            'audit_table'     => $audit_table,
+            'audit_exists'    => $audit_exists,
+            'columns'         => [],
+            'requests_rows'   => null,
+        ];
+
+        if ( $requests_exists ) {
+            $cols = $wpdb->get_col( "SHOW COLUMNS FROM {$requests_table}" );
+            $info['columns'] = is_array( $cols ) ? $cols : [];
+            $info['requests_rows'] = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$requests_table}" );
+        }
+
+        return $info;
+    }
+
+    /**
+     * Cattura un campione di errore DB quando create_pending_request fallisce.
+     *
+     * @param int    $submission_id ID submission.
+     * @param string $email         Email risolta.
+     * @param string $message       Messaggio di errore (db_error o eccezione).
+     */
+    private function capture_db_error_sample( int $submission_id, string $email, string $message ): void {
+        if ( count( $this->diagnostic_samples ) >= 3 ) {
+            return;
+        }
+
+        $this->diagnostic_samples[] = [
+            'id'     => $submission_id,
+            'type'   => 'db_insert_failure',
+            'sample' => substr( 'email=' . $email . ' | ' . $message, 0, 300 ),
+        ];
     }
 
     /**

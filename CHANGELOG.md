@@ -1,5 +1,14 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.1.2] - 2026-04-17
+### Fixed
+- Backfill richieste: catturato il vero errore quando `create_pending_request` ritorna `false` (insert DB fallito). Ora il contatore `Errori` indica se la causa e' parsing dati submission oppure problema schema/DB, senza piu' dare errori generici senza dettaglio.
+- Auto-repair schema: se la tabella `wp_fp_forms_accrediti_requests` non esiste (attivazione non eseguita correttamente, aggiornamento via fp-git-updater senza registrare `register_activation_hook`), il backfill chiama automaticamente `Schema::create_tables()` e riprova.
+
+### Added
+- Diagnostica schema DB in UI dopo backfill con errori: elenca esistenza tabelle (requests, audit), colonne presenti e numero righe attuale, evidenziando se e' stato eseguito l'auto-repair.
+- Diagnostica errori DB per singola submission (`db_error: ...` o `insert returned false`) per identificare vincoli unique violati, colonne mancanti o altri motivi di fallimento insert.
+
 ## [1.1.1] - 2026-04-17
 ### Fixed
 - Backfill richieste accredito: parser dati submission reso tollerante a formati non canonici (JSON gia array, stringhe con slash escapati da magic quotes, serializzazione PHP legacy) con fallback finale tramite `Submissions\Manager::get_submission()`. Risolve casi in cui il backfill riportava `Errori: N` senza creare richieste perche `json_decode` di `submission->data` falliva.

@@ -53,8 +53,38 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 				) );
 				?>
 			</p>
+			<?php
+			$fpfa_bf_schema = get_transient( 'fp_forms_accrediti_backfill_schema' );
+			if ( $fpfa_bf_errors > 0 && is_array( $fpfa_bf_schema ) && $fpfa_bf_schema !== [] ) :
+				$fpfa_req_exists = ! empty( $fpfa_bf_schema['requests_exists'] );
+				$fpfa_repaired   = ! empty( $fpfa_bf_schema['auto_repair_attempted'] );
+				?>
+				<p><strong><?php esc_html_e( 'Diagnostica schema DB accrediti', 'fp-forms-accrediti' ); ?></strong></p>
+				<ul style="margin-left:1.5em;">
+					<li>
+						<code><?php echo esc_html( sprintf( 'requests table: %s → %s', (string) ( $fpfa_bf_schema['requests_table'] ?? '' ), $fpfa_req_exists ? 'OK' : 'MANCANTE' ) ); ?></code>
+					</li>
+					<li>
+						<code><?php echo esc_html( sprintf( 'audit table: %s → %s', (string) ( $fpfa_bf_schema['audit_table'] ?? '' ), ! empty( $fpfa_bf_schema['audit_exists'] ) ? 'OK' : 'MANCANTE' ) ); ?></code>
+					</li>
+					<?php if ( $fpfa_req_exists ) : ?>
+						<li>
+							<code><?php echo esc_html( sprintf( 'righe totali richieste: %d', (int) ( $fpfa_bf_schema['requests_rows'] ?? 0 ) ) ); ?></code>
+						</li>
+						<li>
+							<code><?php echo esc_html( 'colonne: ' . implode( ', ', array_map( 'strval', (array) ( $fpfa_bf_schema['columns'] ?? [] ) ) ) ); ?></code>
+						</li>
+					<?php endif; ?>
+					<?php if ( $fpfa_repaired ) : ?>
+						<li>
+							<code><?php esc_html_e( 'auto-repair: Schema::create_tables() eseguito durante il backfill', 'fp-forms-accrediti' ); ?></code>
+						</li>
+					<?php endif; ?>
+				</ul>
+			<?php endif; ?>
+
 			<?php if ( $fpfa_bf_errors > 0 && is_array( $fpfa_bf_samples ) && $fpfa_bf_samples !== [] ) : ?>
-				<p><strong><?php esc_html_e( 'Diagnostica: primi campioni di submission non leggibili', 'fp-forms-accrediti' ); ?></strong></p>
+				<p><strong><?php esc_html_e( 'Diagnostica: primi campioni delle submission in errore', 'fp-forms-accrediti' ); ?></strong></p>
 				<ul style="margin-left:1.5em;">
 					<?php foreach ( $fpfa_bf_samples as $fpfa_sample ) : ?>
 						<li>
@@ -63,7 +93,7 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 					<?php endforeach; ?>
 				</ul>
 				<p style="margin-top:0.5em;">
-					<em><?php esc_html_e( 'Invia questi campioni al manutentore del plugin per adeguare il parser: indicano il formato esatto con cui FP Forms ha memorizzato i dati su questo sito.', 'fp-forms-accrediti' ); ?></em>
+					<em><?php esc_html_e( 'Invia questi campioni al manutentore del plugin: indicano il tipo di errore (parser dati o insert DB) per adeguare il codice a questo sito.', 'fp-forms-accrediti' ); ?></em>
 				</p>
 			<?php endif; ?>
 		</div>

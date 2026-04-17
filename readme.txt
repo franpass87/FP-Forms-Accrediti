@@ -4,7 +4,7 @@ Contributors: franpass87
 Tags: forms, accreditation, workflow, approvals, email
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -32,6 +32,9 @@ Include:
 
 == Changelog ==
 
+= 1.1.2 = (2026-04-17)
+* Fixed: backfill cattura il vero errore quando l'insert nella tabella richieste fallisce (schema/DB). Auto-repair automatico se la tabella non esiste.
+* Added: UI mostra stato schema DB (tabelle, colonne, righe) e messaggio DB per singola submission in errore.
 = 1.1.1 = (2026-04-17)
 * Fixed: parser dati submission reso tollerante a JSON gia array, slash escapati o serializzazione PHP legacy, con fallback finale su `Submissions\Manager::get_submission()`.
 * Added: UI backfill mostra i primi 3 campioni di `data` (tipo + anteprima) quando l'estrazione fallisce, per diagnosi lato amministratore senza leggere i log del server.
