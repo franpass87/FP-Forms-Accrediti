@@ -1,5 +1,12 @@
 # CHANGELOG - FP Forms Accrediti
 
+## [1.1.0] - 2026-04-17
+### Added
+- Tool di manutenzione **Ricostruisci richieste accredito** nella pagina **Accrediti Settings**: elabora le submission FP Forms pregresse dei form abilitati e crea le richieste accredito mancanti in stato `pending`. Handler `admin_post_fp_forms_accrediti_backfill_requests` protetto da nonce + capability `manage_fp_forms`. Operazione idempotente (dedup su `submission_id`), nessuna email viene inviata al candidato, utile per recuperare submission arrivate prima di attivare o aggiornare il modulo.
+
+### Changed
+- Logica di risoluzione email candidato estratta da `Integration\FpFormsHooks` in `Service\ApplicantEmailResolver` (riuso tra listener live e nuovo backfill; nessun cambio di comportamento per l'end user).
+
 ## [1.0.12] - 2026-04-17
 ### Fixed
 - Richieste accredito non create in produzione quando FP Forms emette `fp_forms_after_save_submission` con argomenti non strettamente tipizzati (`submission_id` come stringa da `wpdb->insert_id` con strict_types). Aggiunto ascolto multi-hook (`fp_forms_after_save_submission`, `fp_forms_after_submit`, `fp_forms_submission_saved`) e normalizzazione del payload con cast robusto via `absint((string) ...)`.

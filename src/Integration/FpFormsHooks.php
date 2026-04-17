@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace FP\FormsAccrediti\Integration;
 
 use FP\FormsAccrediti\Domain\RequestRepository;
+use FP\FormsAccrediti\Service\ApplicantEmailResolver;
 use FP\FormsAccrediti\Settings\Settings;
 
 /**
@@ -18,8 +19,11 @@ final class FpFormsHooks {
 
     private RequestRepository $repository;
 
+    private ApplicantEmailResolver $email_resolver;
+
     public function __construct() {
-        $this->repository = new RequestRepository();
+        $this->repository     = new RequestRepository();
+        $this->email_resolver = new ApplicantEmailResolver();
     }
 
     /**
@@ -71,7 +75,7 @@ final class FpFormsHooks {
             return;
         }
 
-        $email = $this->resolve_applicant_email( $form_id, $form_config, $data );
+        $email = $this->email_resolver->resolve( $form_id, (string) ( $form_config['email_field'] ?? '' ), $data );
         if ( ! is_email( $email ) ) {
             return;
         }
@@ -153,90 +157,4 @@ final class FpFormsHooks {
         return [ $submission_id, $form_id, $data ];
     }
 
-    /**
-     * Risolve email candidato con cascata di fallback.
-     *
-     * Ordine di tentativi:
-     * 1. Slug campo email esplicito nelle impostazioni (se configurato).
-     * 2. Qualunque chiave in $data che contenga «email» nel nome (tipico
-     *    dei campi FP Forms con slug timestampato tipo email_1776015900684).
-     * 3. Primo campo di tipo «email» nello schema form (se disponibile).
-     *
-     * @param int                  $form_id     ID form FP Forms.
-     * @param array<string, mixed> $form_config Config da Settings::get_form_config (enabled già verificato).
-     * @param array<string, mixed> $data        Dati submission sanitizzati.
-     */
-    private function resolve_applicant_email( int $form_id, array $form_config, array $data ): string {
-        $email_field = $form_config['email_field'] ?? '';
-        if ( $email_field !== '' ) {
-            $raw = $data[ $email_field ] ?? null;
-            if ( is_scalar( $raw ) && is_email( (string) $raw ) ) {
-                return sanitize_email( (string) $raw );
-            }
-        }
-
-        foreach ( $data as $key => $value ) {
-            if ( ! is_scalar( $value ) ) {
-                continue;
-            }
-
-            $string_value = (string) $value;
-            if ( stripos( (string) $key, 'email' ) !== false && is_email( $string_value ) ) {
-                return sanitize_email( $string_value );
-            }
-        }
-
-        $from_schema = $this->resolve_email_from_form_schema( $form_id, $data );
-        if ( $from_schema !== '' ) {
-            return $from_schema;
-        }
-
-        return '';
-    }
-
-    /**
-     * Primo campo di tipo «email» nel builder FP Forms con valore valido in $data.
-     *
-     * @param int                  $form_id ID form FP Forms.
-     * @param array<string, mixed> $data    Dati submission.
-     */
-    private function resolve_email_from_form_schema( int $form_id, array $data ): string {
-        if ( ! class_exists( '\FPForms\Plugin' ) ) {
-            return '';
-        }
-
-        try {
-            $plugin = \FPForms\Plugin::instance();
-        } catch ( \Throwable $e ) {
-            return '';
-        }
-
-        if ( ! isset( $plugin->forms ) || ! is_object( $plugin->forms ) || ! method_exists( $plugin->forms, 'get_fields' ) ) {
-            return '';
-        }
-
-        $fields = $plugin->forms->get_fields( $form_id );
-        if ( ! is_array( $fields ) ) {
-            return '';
-        }
-
-        foreach ( $fields as $field ) {
-            if ( ! is_array( $field ) ) {
-                continue;
-            }
-            if ( ( $field['type'] ?? '' ) !== 'email' ) {
-                continue;
-            }
-            $name = isset( $field['name'] ) ? (string) $field['name'] : '';
-            if ( $name === '' ) {
-                continue;
-            }
-            $raw = $data[ $name ] ?? null;
-            if ( is_scalar( $raw ) && is_email( (string) $raw ) ) {
-                return sanitize_email( (string) $raw );
-            }
-        }
-
-        return '';
-    }
 }

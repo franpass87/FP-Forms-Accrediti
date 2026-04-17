@@ -12,8 +12,11 @@ final class Menu {
 
     private RequestsController $controller;
 
+    private BackfillController $backfill_controller;
+
     public function __construct() {
-        $this->controller = new RequestsController();
+        $this->controller          = new RequestsController();
+        $this->backfill_controller = new BackfillController();
     }
 
     /**
@@ -24,6 +27,7 @@ final class Menu {
         add_action( 'admin_menu', [ $this, 'register_menu' ], 20 );
         add_action( 'admin_post_fp_forms_accrediti_save_settings', [ $this->controller, 'handle_save_settings' ] );
         add_action( 'admin_post_fp_forms_accrediti_decide_request', [ $this->controller, 'handle_decision' ] );
+        add_action( 'admin_post_fp_forms_accrediti_backfill_requests', [ $this->backfill_controller, 'handle_backfill' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
         add_filter( 'admin_body_class', [ $this, 'filter_admin_body_class' ] );
     }

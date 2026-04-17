@@ -4,7 +4,7 @@ Contributors: franpass87
 Tags: forms, accreditation, workflow, approvals, email
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 1.0.12
+Stable tag: 1.1.0
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -31,6 +31,10 @@ Include:
 4. Configura in `FP Forms -> Accrediti Settings`.
 
 == Changelog ==
+
+= 1.1.0 = (2026-04-17)
+* Added: tool di manutenzione **Ricostruisci richieste accredito** in Accrediti Settings. Elabora le submission FP Forms pregresse dei form abilitati e crea le richieste accredito mancanti in stato «pending». Idempotente: le richieste già esistenti vengono saltate, nessuna email viene inviata al candidato.
+* Changed: logica di risoluzione email candidato estratta in `Service\ApplicantEmailResolver` (riuso tra listener live e backfill).
 
 = 1.0.12 = (2026-04-17)
 * Fix: richieste accredito non create quando FP Forms emette l'hook `fp_forms_after_save_submission` con argomenti non strettamente tipizzati (submission_id string da `wpdb->insert_id`). Ascolto multi-hook e normalizzazione payload.

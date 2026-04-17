@@ -28,6 +28,36 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 	<?php if ( isset( $_GET['email_defaults_restored'] ) ) : ?>
 		<div class="notice notice-success"><p><?php esc_html_e( 'Testi email ripristinati ai predefiniti del plugin.', 'fp-forms-accrediti' ); ?></p></div>
 	<?php endif; ?>
+	<?php if ( isset( $_GET['backfill_done'] ) ) : ?>
+		<div class="notice notice-success is-dismissible">
+			<p>
+				<strong><?php esc_html_e( 'Backfill richieste accredito completato.', 'fp-forms-accrediti' ); ?></strong>
+			</p>
+			<p>
+				<?php
+				echo esc_html( sprintf(
+					/* translators: 1: form processati, 2: submission scansionate, 3: richieste create, 4: già presenti, 5: senza email valida, 6: errori */
+					__( 'Form processati: %1$d — Submission scansionate: %2$d — Richieste create: %3$d — Già esistenti (skip): %4$d — Senza email valida: %5$d — Errori: %6$d', 'fp-forms-accrediti' ),
+					absint( $_GET['backfill_forms'] ?? 0 ),
+					absint( $_GET['backfill_scanned'] ?? 0 ),
+					absint( $_GET['backfill_created'] ?? 0 ),
+					absint( $_GET['backfill_skipped'] ?? 0 ),
+					absint( $_GET['backfill_no_email'] ?? 0 ),
+					absint( $_GET['backfill_errors'] ?? 0 )
+				) );
+				?>
+			</p>
+		</div>
+	<?php endif; ?>
+	<?php if ( isset( $_GET['backfill_error'] ) ) :
+		$backfill_error_code = sanitize_key( (string) $_GET['backfill_error'] );
+		$backfill_error_msg  = [
+			'module_disabled' => __( 'Modulo accrediti disattivato: abilitalo prima di eseguire il backfill.', 'fp-forms-accrediti' ),
+			'fpforms_missing' => __( 'FP Forms non rilevato: impossibile accedere alle submission.', 'fp-forms-accrediti' ),
+		][ $backfill_error_code ] ?? __( 'Errore durante il backfill.', 'fp-forms-accrediti' );
+		?>
+		<div class="notice notice-error is-dismissible"><p><?php echo esc_html( $backfill_error_msg ); ?></p></div>
+	<?php endif; ?>
 
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="fpfa-settings-form">
 		<?php wp_nonce_field( 'fp_forms_accrediti_save_settings' ); ?>
@@ -244,6 +274,71 @@ $fpfa_mail_ui = \FP\FormsAccrediti\Settings\Settings::normalize_email_templates(
 				<?php esc_html_e( 'Salva tutte le impostazioni', 'fp-forms-accrediti' ); ?>
 			</button>
 			<p class="fpfa-save-hint"><?php esc_html_e( 'Un solo salvataggio applica modulo, form, documenti e template email.', 'fp-forms-accrediti' ); ?></p>
+		</div>
+	</form>
+
+	<?php
+	$fpfa_enabled_forms = [];
+	if ( is_array( $settings['form_configs'] ?? null ) ) {
+		foreach ( $settings['form_configs'] as $fpfa_form_key => $fpfa_form_cfg ) {
+			if ( is_array( $fpfa_form_cfg ) && ! empty( $fpfa_form_cfg['enabled'] ) ) {
+				$fpfa_enabled_forms[] = absint( (string) $fpfa_form_key );
+			}
+		}
+	}
+	$fpfa_enabled_forms_list = is_array( $forms ?? null ) ? array_values( array_filter(
+		$forms,
+		static function ( $form ) use ( $fpfa_enabled_forms ) {
+			$id = isset( $form->id ) ? absint( (string) $form->id ) : ( isset( $form['id'] ) ? absint( (string) $form['id'] ) : 0 );
+			return $id > 0 && in_array( $id, $fpfa_enabled_forms, true );
+		}
+	) ) : [];
+	?>
+
+	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="fpfa-backfill-form">
+		<?php wp_nonce_field( 'fp_forms_accrediti_backfill_requests' ); ?>
+		<input type="hidden" name="action" value="fp_forms_accrediti_backfill_requests">
+
+		<div class="fpfa-card">
+			<div class="fpfa-card-header">
+				<div class="fpfa-card-header-left">
+					<span class="dashicons dashicons-update" aria-hidden="true"></span>
+					<div class="fpfa-card-header-text">
+						<h2><?php esc_html_e( 'Manutenzione: ricostruisci richieste da submission esistenti', 'fp-forms-accrediti' ); ?></h2>
+						<p class="fpfa-card-lead"><?php esc_html_e( 'Usa questo tool se hai submission già arrivate prima di attivare o aggiornare il modulo accrediti: il sistema legge le submission dei form abilitati e crea le richieste mancanti in stato «pending». L’operazione è sicura da ripetere: le richieste già esistenti vengono saltate.', 'fp-forms-accrediti' ); ?></p>
+					</div>
+				</div>
+			</div>
+			<div class="fpfa-card-body">
+				<?php if ( $fpfa_enabled_forms === [] ) : ?>
+					<p class="fpfa-backfill-empty">
+						<?php esc_html_e( 'Nessun form abilitato per gli accrediti. Abilita almeno un form nella sezione «Form» qui sopra, salva le impostazioni e poi torna qui.', 'fp-forms-accrediti' ); ?>
+					</p>
+				<?php else : ?>
+					<div class="fpfa-field">
+						<label for="fpfa-backfill-form-id"><?php esc_html_e( 'Form da ricostruire', 'fp-forms-accrediti' ); ?></label>
+						<select id="fpfa-backfill-form-id" name="form_id" class="fpfa-input">
+							<option value="0"><?php esc_html_e( 'Tutti i form abilitati', 'fp-forms-accrediti' ); ?></option>
+							<?php foreach ( $fpfa_enabled_forms_list as $fpfa_form ) :
+								$fpfa_fid   = isset( $fpfa_form->id ) ? absint( (string) $fpfa_form->id ) : ( isset( $fpfa_form['id'] ) ? absint( (string) $fpfa_form['id'] ) : 0 );
+								$fpfa_title = isset( $fpfa_form->title ) ? (string) $fpfa_form->title : ( isset( $fpfa_form['title'] ) ? (string) $fpfa_form['title'] : ( '#' . $fpfa_fid ) );
+								if ( $fpfa_fid <= 0 ) { continue; }
+								?>
+								<option value="<?php echo esc_attr( (string) $fpfa_fid ); ?>"><?php echo esc_html( $fpfa_title . ' (#' . $fpfa_fid . ')' ); ?></option>
+							<?php endforeach; ?>
+						</select>
+						<p class="fpfa-field-hint"><?php esc_html_e( 'Vengono processate tutte le submission del form selezionato. Operazione idempotente.', 'fp-forms-accrediti' ); ?></p>
+					</div>
+
+					<div class="fpfa-email-reset-row">
+						<button type="submit" class="button fpfa-btn fpfa-btn-secondary">
+							<span class="dashicons dashicons-controls-repeat" aria-hidden="true"></span>
+							<?php esc_html_e( 'Ricostruisci richieste accredito', 'fp-forms-accrediti' ); ?>
+						</button>
+						<p class="fpfa-email-reset-hint"><?php esc_html_e( 'Nessuna email viene inviata al candidato: le richieste vengono create in stato «pending» come se fossero appena arrivate, pronte per revisione operatore.', 'fp-forms-accrediti' ); ?></p>
+					</div>
+				<?php endif; ?>
+			</div>
 		</div>
 	</form>
 </div>
